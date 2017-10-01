@@ -85,6 +85,8 @@ import javax.swing.KeyStroke;
  * @author <a href="mailto:christopher.fuhrman@etsmtl.ca">Christopher Fuhrman</a>
  *
  * @version 1.1
+ * 
+ * 
  */
 
 public class SqueletteSwingApplication extends JFrame implements ActionListener
