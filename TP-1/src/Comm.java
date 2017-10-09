@@ -41,7 +41,6 @@ public class Comm {
 		
 	}
 	
-	
 	public void sendString(String string) {
 				
 		try {
@@ -53,7 +52,6 @@ public class Comm {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public String getString() {
 		
@@ -68,7 +66,6 @@ public class Comm {
 			
 		return string;
 	}
-	
 	
 	public void endConnection() {
 					
