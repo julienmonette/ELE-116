@@ -39,11 +39,10 @@ public class TabFormes {
 		x1 = Integer.parseInt(line.nextToken());
 		x2 = Integer.parseInt(line.nextToken());
 		y1 = Integer.parseInt(line.nextToken());
+		if(!typeForme.equals("<CERCLE>")) {	y2 = Integer.parseInt(line.nextToken());}
 		
 		
-		if(!typeForme.equals("<CERCLE>")) {
-			y2 = Integer.parseInt(line.nextToken());
-		}
+		
 		if(typeForme.equals("<CARRE>")) {
 			forme = new Carre(x1,x2,y1,y2);
 		}
