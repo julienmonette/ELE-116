@@ -31,9 +31,6 @@ public class ClientForme extends JFrame{
 	
 	public ClientForme() {
 		
-		 
-		
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Application ClientForme");
 		
