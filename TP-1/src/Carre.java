@@ -7,19 +7,34 @@ public class Carre extends Forme {
 	private int x2;
 	private int y1;
 	private int y2;
+	private int x;
+	private int y;
+	private int h;
+	private int w;
 	
 	
-	public Carre(int c1,int c2, int c3,int c4) {
-		x1 = c1;
-		x2 = c2;
-		y1 = c3;
-		y2 = c4;
+	
+
+
+	public Carre(int x1,int x2, int y1,int y2) {
+		this.x1 = x1;
+		this.x2 = x2;
+		this.y1 = y1;
+		this.y2 = y2;
+		convertir();
 	}
 	
 	void dessine(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(x1, x2, y1, y2);
+		g.fillRect(x, y, w, h);
 	}
 
+	public void convertir()
+	{
+		x=x1;
+		y=y1;
+		w = Math.abs(x2-x1) ;
+		h = Math.abs(y2-y1);
+	}
 
 }
