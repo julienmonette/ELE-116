@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintStream;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -17,12 +18,14 @@ public class ClientForme extends JFrame{
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
 	
+	private boolean stopButton = false;
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuServeur = new JMenu("Serveur");
 	private JMenuItem menuItemConnect = new  JMenuItem("Se connecter...");
 	private JMenuItem menuItemDisconnect = new  JMenuItem("Déconnection");
 	private JMenu menuCommandes = new JMenu("Commandes");
-	private JMenuItem menuItemGET = new  JMenuItem("GET");
+	private JMenuItem menuItemStart = new  JMenuItem("Start");
+	private JMenuItem menuItemStop = new  JMenuItem("Stop");
 	
 	public CommForme commForme = new CommForme();
 	public TabFormes tabFormes = new TabFormes();
@@ -31,10 +34,12 @@ public class ClientForme extends JFrame{
 	
 	public ClientForme() {
 		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Application ClientForme");
 		
 		creerMenu();
+		
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
@@ -52,16 +57,28 @@ public class ClientForme extends JFrame{
 			}
 		});	
 		
-		menuItemGET.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e ) {		 
-    			commForme.envoieGET();
-    			mundo_string = commForme.getString();
-    			System.out.println(mundo_string);
-    			tabFormes.add(mundo_string);
-    			repaint();	
+		menuItemStart.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e ) {	
+				stopButton = false;
+				
+				while ( stopButton != true ) {
+					
+	    			commForme.envoieGET();
+	    			mundo_string = commForme.getString();
+	    			// ICI ON LOG
+	    			System.out.println(mundo_string);
+	    			tabFormes.add(mundo_string);
+	    			repaint();
+	    			
+				}
 			}
 		});
 		
+		menuItemStop.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e ) {		 
+    				stopButton = true;
+			}
+		});
 		
 	}
 	
@@ -83,7 +100,9 @@ public class ClientForme extends JFrame{
 		menuServeur.add(menuItemDisconnect);
 		
 		menuBar.add(menuCommandes);
-		menuCommandes.add(menuItemGET);
+		menuCommandes.add(menuItemStart);
+		menuCommandes.add(menuItemStop);
+		
 		
 		setJMenuBar(menuBar);
 		
