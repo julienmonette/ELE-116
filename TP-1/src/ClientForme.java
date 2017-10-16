@@ -1,7 +1,11 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -83,7 +87,20 @@ public class ClientForme extends JFrame{
 	}
 	
 	public static void main(String args[] ) {
-	    	
+	    
+		//Redefine outpout port
+		//Log created with date 
+		String filename = new String(new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date()));
+		
+		FileOutputStream f = null;
+		try { f = new FileOutputStream(filename + "-LOG.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.setOut(new PrintStream(f));
+		
+		
+		
 		ClientForme clientforme = new ClientForme();
 		
 		clientforme.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
