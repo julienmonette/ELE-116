@@ -10,10 +10,10 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import com.sun.corba.se.pept.transport.Connection;
-
+import java.util.concurrent.Future;
 
 public class ClientForme extends JFrame{
 
@@ -21,8 +21,9 @@ public class ClientForme extends JFrame{
 	static private final int HAUTEUR_FENETRE = 500;
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
+
 	
-	private boolean stopButton = false;
+	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuServeur = new JMenu("Serveur");
 	private JMenuItem menuItemConnect = new  JMenuItem("Se connecter...");
@@ -31,6 +32,7 @@ public class ClientForme extends JFrame{
 	private JMenuItem menuItemStart = new  JMenuItem("Start");
 	private JMenuItem menuItemStop = new  JMenuItem("Stop");
 	
+	public boolean stopButton = false;
 	public CommForme commForme = new CommForme();
 	public TabFormes tabFormes = new TabFormes();
 	
@@ -62,25 +64,15 @@ public class ClientForme extends JFrame{
 		});	
 		
 		menuItemStart.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e ) {	
-				stopButton = false;
-				
-				while ( stopButton != true ) {
-					
-	    			commForme.envoieGET();
-	    			mundo_string = commForme.getString();
-	    			// ICI ON LOG
-	    			System.out.println(mundo_string);
-	    			tabFormes.add(mundo_string);
-	    			repaint();
-	    			
-				}
+			public void actionPerformed(ActionEvent e ) {	 			
+				stopButton = false;   	
+				commencerDessin();												
 			}
 		});
 		
 		menuItemStop.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {		 
-    				stopButton = true;
+    				stopButton = true;   				
 			}
 		});
 		
@@ -109,6 +101,40 @@ public class ClientForme extends JFrame{
 
 	}
 	
+	
+	private void commencerDessin(){
+		
+		final SwingWorker wingWorker = new SwingWorker() {
+
+
+			protected Object doInBackground() throws Exception {
+				
+				while ( stopButton != true ) {
+					
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}	
+									
+					commForme.envoieGET();
+					mundo_string = commForme.getString();
+					// ICI ON LOG
+					System.out.println(mundo_string);
+					tabFormes.add(mundo_string);
+					repaint();
+				}
+				
+				return null;
+			}		
+		};
+		
+		wingWorker.execute();
+
+	}
+	
+	
+	
 	private void creerMenu() {
 		
 		menuBar.add(menuServeur);
@@ -132,4 +158,5 @@ public class ClientForme extends JFrame{
 	
 	
 }
+
 
