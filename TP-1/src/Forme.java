@@ -20,17 +20,20 @@ Historique des modifications
 
 import java.awt.Graphics;
 
+
+/**
+* Classe décrivant une forme
+* 
+* @author Colin Reid-Lapierre, Julien Monette
+* 
+*/
 public abstract class Forme 
 {
-//	abstract void SetCoordinate(int x1, int y);
-//	abstract void SetShape(int lenght, int height);
-//	
-//	
+	/**
+	 * Affiche la forme sur l'interface.
+	 */
     abstract void dessine(Graphics g);
 	
 	public Forme() {};
-	
-	
-	
 	
 }

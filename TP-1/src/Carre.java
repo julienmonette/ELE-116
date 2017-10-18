@@ -23,8 +23,10 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 /**
- * Classe décrivant la forme carré
- * @author Colin
+ * Classe décrivant la forme "carré"
+ * 
+ * @author Colin Reid-Lapierre, Julien Monette
+ * 
  */
 public class Carre extends Forme {
 
@@ -39,8 +41,8 @@ public class Carre extends Forme {
 	
 	/**
 	 * Constructeur
-	 * Coordonnée (x1,y1) (x2,y2) décrivant la diagonnale du carré
-	 * @param x1 
+	 * 
+	 * @param x1 Coordonnée (x1,y1) (x2,y2) décrivant la diagonnale du carré
 	 * @param x2
 	 * @param y1
 	 * @param y2
@@ -54,7 +56,7 @@ public class Carre extends Forme {
 	}
 	
 	/**
-	 * Permet d'afficher le carré sur l'interface.
+	 * Affiche la forme sur l'interface.
 	 */
 	void dessine(Graphics g) {
 		g.setColor(Color.BLACK);

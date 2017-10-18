@@ -21,6 +21,12 @@ Historique des modifications
 import java.awt.Graphics;
 import java.awt.Color;
 
+/**
+* Classe décrivant la forme "ligne"
+* 
+* @author Colin Reid-Lapierre, Julien Monette
+* 
+*/
 public class Ligne extends Forme {
 	
 	private int x1;
@@ -28,14 +34,24 @@ public class Ligne extends Forme {
 	private int y1;
 	private int y2;
 	
-	
-	public Ligne(int c1,int c2, int c3,int c4) {
-		x1 = c1;
-		x2 = c2;
-		y1 = c3;
-		y2 = c4;
+	/**
+	 * Constructeur
+	 * 
+	 * @param x1 Coordonnée (x1,y1) (x2,y2) décrivant les extémités de la ligne
+	 * @param x2
+	 * @param y1
+	 * @param y2
+	 */
+	public Ligne(int x1,int x2, int y1,int y2) {
+		this.x1 = x1;
+		this.x2 = x2;
+		this.y1 = y1;
+		this.y2 = y2;
 	}
 	
+	/**
+	 * Affiche la forme sur l'interface.
+	 */
 	void dessine(Graphics g){
 		g.setColor(Color.cyan);
 		g.drawLine(x1, y1, x2, y2);

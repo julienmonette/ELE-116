@@ -18,10 +18,15 @@ Historique des modifications
 2017-09-11 Version initiale
 *******************************************************/
 
-
 import java.awt.Graphics;
 import java.awt.Color;
 
+/**
+* Classe décrivant la forme "Rectangle"
+* 
+* @author Colin Reid-Lapierre, Julien Monette
+* 
+*/
 public class Rectangle extends Forme {
 	
 	private int x1;
@@ -33,7 +38,14 @@ public class Rectangle extends Forme {
 	private int h;
 	private int w;
 	
-	
+	/**
+	 * Constructeur
+	 * 
+	 * @param x1 Coordonnée (x1,y1) (x2,y2) décrivant la diagonnale du rectangle
+	 * @param x2
+	 * @param y1
+	 * @param y2
+	 */
 	public Rectangle(int x1,int x2, int y1,int y2) {
 		this.x1 = x1;
 		this.x2 = x2;
@@ -42,11 +54,18 @@ public class Rectangle extends Forme {
 		convertir();
 	}
 	
+	/**
+	 * Affiche la forme sur l'interface.
+	 */
 	void dessine(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect(x1, x2, y1, y2);
 	}
 	
+	/**
+	 * Convertit le format reçu du serveur pour respecter le format de 
+	 * la méthode fillRect.
+	 */
 	public void convertir()
 	{
 		x = x1;
