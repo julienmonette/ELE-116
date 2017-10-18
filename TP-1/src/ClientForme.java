@@ -1,3 +1,26 @@
+/******************************************************
+Cours : ELE116
+Session : AUT2017
+Groupe : 01
+Projet : Laboratoire #1
+Étudiant(e)(s) : 	Colin Reid-Lapierre
+					Julien Monette
+Code(s) perm. : 	REIC11069309
+					XXXXXXXXX					
+Professeur : Rita Noumeir
+Nom du fichier : ClientForme.java
+Date création : 2017-09-11
+Date dern. modif. 2017-10-18
+
+*******************************************************
+Historique des modifications
+*******************************************************
+2017-09-11 Version initiale
+*******************************************************/
+
+
+
+
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +50,7 @@ public class ClientForme extends JFrame{
 	static private final int POSITION_FENETRE_Y = 0;
 	static private final int DELAI_AFFICHAGE_FORMES = 500;
 	static private final String DEFAULT_PORT_NUMBER = "10000";
-	static private final String DEFAULT_NUMBER_OF_SHAPES = "12"; 
+	static private final String DEFAULT_NUMBER_OF_SHAPES = "2"; 
 	
 	private JMenuBar menuBar = new JMenuBar();
 	
@@ -46,7 +69,7 @@ public class ClientForme extends JFrame{
 	public CommForme commForme = new CommForme();
 	public TabFormes tabFormes = new TabFormes();
 	
-	String mundo_string;
+	String forme;
 	
 	public String localHostPort = DEFAULT_PORT_NUMBER;
 	public String numberOfShapes = DEFAULT_NUMBER_OF_SHAPES;
@@ -128,7 +151,7 @@ public class ClientForme extends JFrame{
 			public void actionPerformed(ActionEvent e ) {		 
     		
 			localHostPort = JOptionPane.showInputDialog(
-					"Port de ServeurForme", localHostPort);
+					"Port de ServeurForme : ", localHostPort);
 			}
 		});		
 		
@@ -137,7 +160,7 @@ public class ClientForme extends JFrame{
 			public void actionPerformed(ActionEvent e ) {		 
     		
 			numberOfShapes = JOptionPane.showInputDialog(
-					"Port de ServeurForme", numberOfShapes);
+					"Nombre de formes à afficher : ", numberOfShapes);
 			}
 		});		
 		
@@ -149,7 +172,7 @@ public class ClientForme extends JFrame{
 	    
 		//Redefine outpout port
 		//Log created with date 
-		String filename = new String(new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date()));
+		String filename = new String(new SimpleDateFormat("yyyy-MM-dd - HHmmss").format(new Date()));
 		
 		FileOutputStream f = null;
 		try { f = new FileOutputStream(filename + "-LOG.txt");
@@ -157,9 +180,7 @@ public class ClientForme extends JFrame{
 			e.printStackTrace();
 		}
 		System.setOut(new PrintStream(f));
-		
-		
-		
+			
 		ClientForme clientForme = new ClientForme();
 		
 		clientForme.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
@@ -172,13 +193,13 @@ public class ClientForme extends JFrame{
 	
 	
 	private void commencerDessin(){
-		
-		int shapesToDisplay = Integer.parseInt(numberOfShapes);
-	    
 
 		final SwingWorker swingWorker = new SwingWorker() {
 
 			protected Object doInBackground() throws Exception {
+				
+				int shapesToDisplay = Integer.parseInt(numberOfShapes);
+				shapesDisplayed = 0;
 				
 				while ( (stopButton != true ) && ( shapesDisplayed < shapesToDisplay )  ) {
 					
@@ -186,24 +207,19 @@ public class ClientForme extends JFrame{
 						Thread.sleep(DELAI_AFFICHAGE_FORMES);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
-					}	
-									
+					}					
 					commForme.envoieGET();
-					mundo_string = commForme.getString();
-					// ICI ON LOG
-					System.out.println(mundo_string);
-					tabFormes.add(mundo_string);
+					forme = commForme.getString();				
+					tabFormes.add(forme);
 					repaint();
-					shapesDisplayed++;
+					shapesDisplayed++;	
 					
-				}
-				
+					System.out.println(forme);
+				}	
 				return null;
 			}		
 		};
-		
 		swingWorker.execute();
-
 	}
 	
 	
@@ -228,7 +244,6 @@ public class ClientForme extends JFrame{
 		super.paint(g);
 		tabFormes.dessinerTabForme(g);
 	}
-	
 	
 }
 
