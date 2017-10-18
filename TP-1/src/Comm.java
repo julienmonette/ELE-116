@@ -19,18 +19,19 @@ public class Comm {
 	Socket socket;
 	InetAddress localHost;
 	
-	public void startConnection(){
+	public void startConnection (int portNumber) throws IOException {
 		
 		try{
 		
 			localHost = InetAddress.getLocalHost();		
+			
 			try {	
-				socket = new Socket(localHost, 10000);
+				socket = new Socket(localHost, portNumber);
 				bread = new BufferedReader(new InputStreamReader( new BufferedInputStream(socket.getInputStream())));
 				bwrite = new BufferedWriter(new OutputStreamWriter( new BufferedOutputStream(socket.getOutputStream())));
 			}
 			catch (IOException e) {
-				e.printStackTrace();
+				throw e;
 			}
 	
 		}
