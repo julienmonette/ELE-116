@@ -22,6 +22,10 @@ Historique des modifications
 import java.awt.Graphics;
 import java.awt.Color;
 
+/**
+ * Classe décrivant la forme carré
+ * @author Colin
+ */
 public class Carre extends Forme {
 
 	private int x1;
@@ -33,10 +37,14 @@ public class Carre extends Forme {
 	private int h;
 	private int w;
 	
-	
-	
-
-
+	/**
+	 * Constructeur
+	 * Coordonnée (x1,y1) (x2,y2) décrivant la diagonnale du carré
+	 * @param x1 
+	 * @param x2
+	 * @param y1
+	 * @param y2
+	 */
 	public Carre(int x1,int x2, int y1,int y2) {
 		this.x1 = x1;
 		this.x2 = x2;
@@ -45,12 +53,19 @@ public class Carre extends Forme {
 		convertir();
 	}
 	
+	/**
+	 * Permet d'afficher le carré sur l'interface.
+	 */
 	void dessine(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(x, y, w, h);
 	}
 
-	public void convertir()
+	/**
+	 * Convertit le format reçu du serveur pour respecter le format de 
+	 * la méthode fillRect.
+	 */
+	private void convertir()
 	{
 		x=x1;
 		y=y1;
