@@ -19,8 +19,6 @@ Historique des modifications
 *******************************************************/
 
 
-
-
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,8 +38,11 @@ import javax.swing.JMenu;
 import java.util.concurrent.Future;
 import javax.swing.JOptionPane;
 
-
-
+/**
+ * Classe de l'application ClientForme
+ * 
+ * @author Colin Reid-Lapierre, Julien Monette
+ */
 public class ClientForme extends JFrame{
 
 	static private final int LARGEUR_FENETRE = 500;
@@ -64,35 +65,33 @@ public class ClientForme extends JFrame{
 	private JMenuItem menuItemStop = new  JMenuItem("Stop");
 	private JMenuItem menuItemShapeConfig = new  JMenuItem("Paramètre Forme");
 	
-	
 	public boolean stopButton = false;
 	public CommForme commForme = new CommForme();
 	public TabFormes tabFormes = new TabFormes();
 	
-	String forme;
+	public String forme;
 	
 	public String localHostPort = DEFAULT_PORT_NUMBER;
 	public String numberOfShapes = DEFAULT_NUMBER_OF_SHAPES;
 			
 	private int shapesDisplayed = 0;
 	
-	
+	/**Constructeur du Client forme. Crée entre autres l'interface Graphique.
+	 * 
+	 * Contient les actions listener.
+	 */
 	public ClientForme() {
-		
-		
+			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Application ClientForme");
 		
 		creerMenu();
 		
-		
 		JPanel panel = new JPanel();
-		getContentPane().add(panel);
-			
+		getContentPane().add(panel);		
 		
 		JOptionPane portNumberBox = new JOptionPane();
-		JOptionPane wrongPortNumberMessage = new JOptionPane();
-		
+		JOptionPane wrongPortNumberMessage = new JOptionPane();	
 		
 		menuItemConnect.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {
@@ -131,8 +130,8 @@ public class ClientForme extends JFrame{
 		menuItemStart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {	 			
 				stopButton = false;   	
-				commencerDessin();	
-				
+				drawShapes();	
+
 				menuItemStop.setEnabled(true);
 				menuItemStart.setEnabled(false);
 			}
@@ -155,7 +154,6 @@ public class ClientForme extends JFrame{
 			}
 		});		
 		
-		
 		menuItemShapeConfig.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {		 
     		
@@ -163,11 +161,13 @@ public class ClientForme extends JFrame{
 					"Nombre de formes à afficher : ", numberOfShapes);
 			}
 		});		
-		
-		
-		
+				
 	}
 	
+	/** Méthode Main de Client forme
+	 * 
+	 * @param args
+	 */
 	public static void main(String args[] ) {
 	    
 		//Redefine outpout port
@@ -179,23 +179,28 @@ public class ClientForme extends JFrame{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.setOut(new PrintStream(f));
-			
+		System.setOut(new PrintStream(f));		
+	
 		ClientForme clientForme = new ClientForme();
 		
 		clientForme.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 		clientForme.setVisible(true);
 		clientForme.setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
 		clientForme.setResizable(false);
-		
-
 	}
 	
-	
-	private void commencerDessin(){
+	/**
+	 *  Dessine le nombre de formes désirés sur l'interface
+	 *  
+	 */
+	private void drawShapes(){
 
 		final SwingWorker swingWorker = new SwingWorker() {
 
+			/*
+			 * On utilise doInBackground pour que le reste du programme puisse continuer
+			 * de fonctionner en même temps.
+			 */
 			protected Object doInBackground() throws Exception {
 				
 				int shapesToDisplay = Integer.parseInt(numberOfShapes);
@@ -222,7 +227,9 @@ public class ClientForme extends JFrame{
 		swingWorker.execute();
 	}
 	
-	
+	/**
+	 * Crée les différents menus déroulants de l'inteface swing
+	 */
 	private void creerMenu() {	
 		menuBar.add(menuServeur);
 		menuServeur.add(menuItemConnect);
@@ -240,6 +247,11 @@ public class ClientForme extends JFrame{
 		menuItemStart.setEnabled(false);
 	}
 	
+	/**
+	 * redéfinition de la méthode paint.
+	 * 
+	 * On ajoute les formes contenue dans la liste de forme dans tabFormes sur la fenêtre.
+	 */
 	public void paint(Graphics g) {
 		super.paint(g);
 		tabFormes.dessinerTabForme(g);
