@@ -41,7 +41,7 @@ import javax.swing.JOptionPane;
 /**
  * Classe de l'application ClientForme
  * 
- * Recoit des formes du serveur "ServeurForme" pour ensuite les affiché sur l'interface utilisateur.
+ * Recoit des formes du serveur "ServeurForme" pour ensuite les afficher sur l'interface utilisateur.
  * 
  * @author Colin Reid-Lapierre, Julien Monette
  */
@@ -62,14 +62,17 @@ public class ClientForme extends JFrame{
 	private JMenu menuServeur = new JMenu("Serveur");
 	private JMenuItem menuItemConnect = new  JMenuItem("Se connecter...");
 	private JMenuItem menuItemDisconnect = new  JMenuItem("Déconnection");
-	private JMenuItem menuItemSetPort = new  JMenuItem("Paramètres serveur");
+	private JMenuItem menuItemSetPort = new  JMenuItem("Paramètres Serveur");
 	
-	private JMenu menuCommandes = new JMenu("Commandes");
-	private JMenuItem menuItemStart = new  JMenuItem("Start");
-	private JMenuItem menuItemStop = new  JMenuItem("Stop");
-	private JMenuItem menuItemShapeConfig = new  JMenuItem("Paramètre Forme");
+	private JMenu menuCommandes = new JMenu("Formes");
+	private JMenuItem menuItemStart = new  JMenuItem("Démarrer");
+	private JMenuItem menuItemPause = new JMenuItem("Pause");
+	private JMenuItem menuItemStop = new  JMenuItem("Arrêt");
+	private JMenuItem menuItemShapeConfig = new  JMenuItem("Paramètres Forme");
 	
-	public boolean stopButton = false;
+	public boolean isStopped = false;
+	public boolean isPaused =  false;
+	
 	public CommForme commForme = new CommForme();
 	public TabFormes tabFormes = new TabFormes();
 	
@@ -78,6 +81,11 @@ public class ClientForme extends JFrame{
 	public String localHostPort = DEFAULT_PORT_NUMBER;
 	public String numberOfShapes = DEFAULT_NUMBER_OF_SHAPES;
 	public int shapesDisplayed = 0;
+	
+	private JPanel panel;
+	
+	private int mundo = 0;
+	
 	
 	/**Constructeur du Client forme. Crée entre autres l'interface Graphique.
 	 * 
@@ -90,11 +98,11 @@ public class ClientForme extends JFrame{
 		
 		creerMenu();
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		getContentPane().add(panel);		
 		
 		// JOptionPane portNumberBox = new JOptionPane();
-		JOptionPane wrongPortNumberMessage = new JOptionPane();	
+		//JOptionPane wrongPortNumberMessage = new JOptionPane();	
 		
 		menuItemConnect.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {
@@ -108,11 +116,10 @@ public class ClientForme extends JFrame{
 					
 				} catch (NumberFormatException e1) {
 					JOptionPane.showMessageDialog(panel, "Vérifier le numéro de port !", "Connection impossible",
-							wrongPortNumberMessage.INFORMATION_MESSAGE);
+							JOptionPane.INFORMATION_MESSAGE);
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(panel, "Vérifier le numéro de port !", "Connection impossible",
-							wrongPortNumberMessage.INFORMATION_MESSAGE);
-	
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 	
 			}
@@ -132,18 +139,30 @@ public class ClientForme extends JFrame{
 		
 		menuItemStart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {	 			
-				stopButton = false;   	
+				isStopped = false;
+				isPaused  = false;
 				drawShapes();	
 				
+				menuItemPause.setEnabled(true);
 				menuItemStart.setEnabled(false);
 				menuItemStop.setEnabled(true);
-
 			}
 		});
 		
+		
+		menuItemPause.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e ) {	 			
+				isPaused = true;
+				
+				menuItemStart.setEnabled(true);
+				menuItemPause.setEnabled(false);
+			}
+		});
+		
+		
 		menuItemStop.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {		 
-    			stopButton = true;   
+    			isStopped = true;   
     			
     			menuItemStop.setEnabled(false);
     			menuItemStart.setEnabled(true);
@@ -152,23 +171,31 @@ public class ClientForme extends JFrame{
 		
 		menuItemSetPort.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {		 
-    		
-			localHostPort = JOptionPane.showInputDialog(
-					"Port de ServeurForme : ", localHostPort);
+				
+				localHostPort = JOptionPane.showInputDialog(
+						"Port de ServeurForme : ", localHostPort);
 			}
 		});		
 		
 		menuItemShapeConfig.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e ) {		 
     		
-			numberOfShapes = JOptionPane.showInputDialog(
-					"Nombre de formes à afficher : ", numberOfShapes);
+				numberOfShapes = JOptionPane.showInputDialog(
+						"Nombre de formes à afficher : ", numberOfShapes);
+				try{
+					Integer.parseInt(numberOfShapes);
+				}
+				catch(NumberFormatException e3) {
+					JOptionPane.showMessageDialog(panel, "Format incorrect", "erreur",
+							JOptionPane.INFORMATION_MESSAGE);
+					numberOfShapes = DEFAULT_NUMBER_OF_SHAPES;
+				}
 			}
 		});		
 				
 	}
 	
-	/** Méthode Main de Client forme
+	/** Méthode Main de ClienForme
 	 * 
 	 * @param args
 	 */
@@ -200,7 +227,7 @@ public class ClientForme extends JFrame{
 	private void drawShapes(){
 
 		final SwingWorker swingWorker = new SwingWorker() {
-
+		
 			/*
 			 * On utilise doInBackground pour que le reste du programme puisse continuer
 			 * de fonctionner en même temps.
@@ -209,24 +236,28 @@ public class ClientForme extends JFrame{
 				
 				int shapesToDisplay = Integer.parseInt(numberOfShapes);
 				shapesDisplayed = 0;
-				while ( !stopButton  && ( shapesDisplayed < shapesToDisplay )  ) {
+				while ( !isStopped  && ( shapesDisplayed < shapesToDisplay )  ) {
 					try {
 						Thread.sleep(DELAI_AFFICHAGE_FORMES);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
-					}					
-					commForme.envoieGET();
-					forme = commForme.getString();	
-					tabFormes.add(forme);
-					repaint();
-					shapesDisplayed++;	
+					}
 					
-					System.out.println(forme);
+					if(!isPaused) {
+						commForme.envoieGET();
+						forme = commForme.getString();	
+						tabFormes.add(forme);
+						repaint();
+						shapesDisplayed++;	
+						
+						System.out.println(forme);	
+					}
 				}	
 				commForme.endConnection();
 				menuItemConnect.setEnabled(true);
 				menuItemDisconnect.setEnabled(false);
 				menuItemStop.setEnabled(false);
+				menuItemPause.setEnabled(false);
     			menuItemStart.setEnabled(false);
     			menuItemSetPort.setEnabled(true);
 				
@@ -247,10 +278,12 @@ public class ClientForme extends JFrame{
 		
 		menuBar.add(menuCommandes);
 		menuCommandes.add(menuItemStart);
+		menuCommandes.add(menuItemPause);
 		menuCommandes.add(menuItemStop);
 		menuCommandes.add(menuItemShapeConfig);
 		setJMenuBar(menuBar);
 		
+		menuItemPause.setEnabled(false);
 		menuItemDisconnect.setEnabled(false);
 		menuItemStop.setEnabled(false);
 		menuItemStart.setEnabled(false);
