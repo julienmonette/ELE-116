@@ -34,15 +34,9 @@ public class TabFormes {
 	static private final int TABLE_LENGTH = 10;
 	
 	private int size = 0;
-	private int i; // Position de la prochaine forme à ajouter au tableau
+	private int i=0; // Position de la prochaine forme à ajouter au tableau
 	private Forme  tab[] = new Forme[TABLE_LENGTH];
 	
-	/**
-	 * Constructeur.
-	 */
-	public TabFormes(){
-		i = 0;
-	}
 	
 	/**
 	 * Ajoute une forme au tableau à partir d'une string provenant de ServeurForme
@@ -61,7 +55,7 @@ public class TabFormes {
 		
 		seq = line.nextToken();
 		typeForme = line.nextToken();
-									
+							
 		// On reccueil les informations de la forme à partir du string de ServeurForme
 		x1 = Integer.parseInt(line.nextToken());
 		x2 = Integer.parseInt(line.nextToken());
@@ -126,20 +120,22 @@ public class TabFormes {
 	 * @param g
 	 */
 	public void dessinerTabForme(Graphics g) {
-		// TODO : Les formes doivent s'afficher dans l'ordre de leur arrivé.		
+		
 		int j;
-		int premiereFormeAffichee = i;
+		int IndexFormeAffichee = i;
 		
-	
-		
-		
+		/*
+		 * Ici, index forme à ajouter sert à gèrer l'ordre dans lequel les formes seront affichées, 
+		 * laquelle sera en premier plan. On désire que la dernière forme reçu soit celle en premier plan
+		 * par rapport aux autre.
+		 */
 		for( j = 0; j < size; j++) {
 			
-			if( premiereFormeAffichee == size) {
-				premiereFormeAffichee = 0;
+			if( IndexFormeAffichee == size) {
+				IndexFormeAffichee = 0;
 			}
-			tab[premiereFormeAffichee].dessine(g);
-			premiereFormeAffichee++;
+			tab[IndexFormeAffichee].dessine(g);
+			IndexFormeAffichee++;
 		}
 	}
 
