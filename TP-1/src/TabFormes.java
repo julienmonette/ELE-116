@@ -55,17 +55,19 @@ public class TabFormes {
 		int y2=0;
 		
 		Forme forme;
+		String seq;
 		String typeForme;
 		StringTokenizer line = new StringTokenizer(string);	
 		
+		seq = line.nextToken();
 		typeForme = line.nextToken();
-		
+									
 		// On reccueil les informations de la forme à partir du string de ServeurForme
 		x1 = Integer.parseInt(line.nextToken());
 		x2 = Integer.parseInt(line.nextToken());
 		y1 = Integer.parseInt(line.nextToken());
 		if(!typeForme.equals("<CERCLE>")) {	y2 = Integer.parseInt(line.nextToken());}		
-		
+				
 		
 		if(typeForme.equals("<CARRE>")) {
 			forme = new Carre(x1,x2,y1,y2);
@@ -81,7 +83,7 @@ public class TabFormes {
 		}
 		else {
 			forme = new Ovale(x1,x2,y1,y2);
-		}	
+		}					
 		
 		add(forme);
 	}
