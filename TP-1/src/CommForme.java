@@ -18,16 +18,24 @@ Historique des modifications
 2017-09-11 Version initiale
 *******************************************************/
 
-
+/**
+ * CommForme
+ * 
+ * Fourni deux méthodes pour envoyer les commande GET et END à ServeurForme
+ * @author Colin Reid-Lapierre, Julien Monette
+ */
 public class CommForme extends Comm {
 	
-	//public String forme;
-	
+	/**
+	 * Demande une forme à ServeurForme
+	 */
 	public void envoieGET() {
 		this.sendString("GET");
-		//forme = this.getString();
 	}
-		
+	
+	/**
+	 * Envoie commande de déconnection à ServeurForme
+	 */
 	public void envoieEND() {
 	    this.endConnection();
 	}
