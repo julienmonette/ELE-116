@@ -38,7 +38,6 @@ public class Cercle extends Forme{
 		g.setColor(Color.GREEN);
 		g.fillOval(x, y, h, w);
 	}
-
 	
 	/**
 	 * Convertit le format reçu du serveur pour respecter le format de 
@@ -60,6 +59,5 @@ public class Cercle extends Forme{
 		w = 2*r;
 		h = 2*r;
 	}	
-	
-	
+		
 }
