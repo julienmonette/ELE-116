@@ -52,10 +52,10 @@ public class ClientForme extends JFrame{
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
 	
-	static private final int DELAI_AFFICHAGE_FORMES = 1000;
+	static private final int DELAI_AFFICHAGE_FORMES = 500;
 	
 	static private final String DEFAULT_PORT_NUMBER = "10000";
-	static private final String DEFAULT_NUMBER_OF_SHAPES = "2"; 
+	static private final String DEFAULT_NUMBER_OF_SHAPES = "15"; 
 	
 	private JMenuBar menuBar = new JMenuBar();
 	
@@ -134,9 +134,10 @@ public class ClientForme extends JFrame{
 			public void actionPerformed(ActionEvent e ) {	 			
 				stopButton = false;   	
 				drawShapes();	
-
-				menuItemStop.setEnabled(true);
+				
 				menuItemStart.setEnabled(false);
+				menuItemStop.setEnabled(true);
+
 			}
 		});
 		
@@ -208,23 +209,28 @@ public class ClientForme extends JFrame{
 				
 				int shapesToDisplay = Integer.parseInt(numberOfShapes);
 				shapesDisplayed = 0;
-				
-				while (  !stopButton  && ( shapesDisplayed < shapesToDisplay )  ) {
-					
+				while ( !stopButton  && ( shapesDisplayed < shapesToDisplay )  ) {
 					try {
 						Thread.sleep(DELAI_AFFICHAGE_FORMES);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}					
 					commForme.envoieGET();
-					forme = commForme.getString();				
+					forme = commForme.getString();	
 					tabFormes.add(forme);
 					repaint();
 					shapesDisplayed++;	
 					
 					System.out.println(forme);
 				}	
-				return null;
+				commForme.endConnection();
+				menuItemConnect.setEnabled(true);
+				menuItemDisconnect.setEnabled(false);
+				menuItemStop.setEnabled(false);
+    			menuItemStart.setEnabled(false);
+    			menuItemSetPort.setEnabled(true);
+				
+    			return null;
 			}		
 		};
 		swingWorker.execute();
@@ -255,9 +261,10 @@ public class ClientForme extends JFrame{
 	 * 
 	 * On ajoute les formes contenue dans la liste de forme dans tabFormes sur la fenêtre.
 	 */
-	public void paint(Graphics g) {
+	public void paint(Graphics g) {	
 		super.paint(g);
 		tabFormes.dessinerTabForme(g);
+		super.setJMenuBar(menuBar);
 	}
 	
 }
