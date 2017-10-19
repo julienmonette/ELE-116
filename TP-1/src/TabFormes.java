@@ -99,7 +99,7 @@ public class TabFormes {
 			i = 0;
 		}
 		
-		if(size != TABLE_LENGTH) {
+		if(size < TABLE_LENGTH) {
 			size++;
 		}		
 	}
@@ -128,8 +128,18 @@ public class TabFormes {
 	public void dessinerTabForme(Graphics g) {
 		// TODO : Les formes doivent s'afficher dans l'ordre de leur arrivé.		
 		int j;
-		for( j = 0; j < getSize(); j++) {
-			tab[j].dessine(g);
+		int premiereFormeAffichee = i;
+		
+	
+		
+		
+		for( j = 0; j < size; j++) {
+			
+			if( premiereFormeAffichee == size) {
+				premiereFormeAffichee = 0;
+			}
+			tab[premiereFormeAffichee].dessine(g);
+			premiereFormeAffichee++;
 		}
 	}
 
