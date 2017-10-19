@@ -86,9 +86,9 @@ public class Comm {
 	}
 	
 	/**
-	 * Retourne la String envoyée par le serveur
+	 * Retourne la String envoyée par ServeurForme
 	 * 
-	 * @return 
+	 * @return String envoyée par ServeurForme
 	 */
 	public String getString() {
 		
@@ -120,6 +120,5 @@ public class Comm {
 		}
 		
 	}
-	
 	
 }
