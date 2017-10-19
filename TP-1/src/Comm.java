@@ -32,7 +32,11 @@ import java.io.OutputStreamWriter;
 import java.io.BufferedWriter;
 
 
-
+/** Permet de se connecter et d'envoyer des commandes au serveur
+ * 
+ * @author Colin Reid-Lapierre, Julien Monette
+ *
+ */
 public class Comm {
 
 	BufferedReader bread ;
@@ -40,12 +44,16 @@ public class Comm {
 	Socket socket;
 	InetAddress localHost;
 	
+	/**
+	 * Établie la connect avec le serveur
+	 * 
+	 * @param portNumber     Numero de port pour la connection
+	 * @throws IOException	 Renvoie une exception dans le cas où le connection ne peut pas être établie
+	 */
 	public void startConnection (int portNumber) throws IOException {
 		
-		try{
-		
+		try{	
 			localHost = InetAddress.getLocalHost();		
-			
 			try {	
 				socket = new Socket(localHost, portNumber);
 				bread = new BufferedReader(new InputStreamReader( new BufferedInputStream(socket.getInputStream())));
@@ -54,15 +62,17 @@ public class Comm {
 			catch (IOException e) {
 				throw e;
 			}
-	
 		}
 		catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
+	/**
+	 * Envoie une connmande au serveur
+	 * 
+	 * @param string Command à envoyer au serveur
+	 */
 	public void sendString(String string) {
 				
 		try {
@@ -75,6 +85,11 @@ public class Comm {
 		}
 	}
 	
+	/**
+	 * Retourne la String envoyée par le serveur
+	 * 
+	 * @return 
+	 */
 	public String getString() {
 		
 		String string = "";
@@ -89,6 +104,9 @@ public class Comm {
 		return string;
 	}
 	
+	/**
+	 * Envoie "END" au serveur pour terminer la connection 
+	 */
 	public void endConnection() {
 					
 		try{
