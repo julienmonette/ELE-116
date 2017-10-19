@@ -23,24 +23,32 @@ import java.awt.geom.RectangularShape;
 import java.util.StringTokenizer;
 
 
+/**
+ * Gère une liste de formes et permet de les afficher.
+ * 
+ * @author Colin Reid-Lapierre, Julien Monette
+ *
+ */
 public class TabFormes {
 	
-
-	private int tableLength = 10;
+	static private final int TABLE_LENGTH = 10;
 	
-	private int i;
 	private int size = 0;
-	private RectangularShape table[];
+	private int i; // Position de la prochaine forme à ajouter au tableau
+	private Forme  tab[] = new Forme[TABLE_LENGTH];
 	
-	private Forme  tab[] = new Forme[tableLength];
-		
-	
+	/**
+	 * Constructeur.
+	 */
 	public TabFormes(){
 		i = 0;
 	}
 	
+	/**
+	 * Ajoute une forme au tableau à partir d'une string provenant de ServeurForme
+	 * @param string : String recu de ServeurForme
+	 */
 	public void add(String string) {
-		int seq;
 		int x1=0;
 		int x2=0;
 		int y1=0;
@@ -50,14 +58,14 @@ public class TabFormes {
 		String typeForme;
 		StringTokenizer line = new StringTokenizer(string);	
 		
-		seq = Integer.parseInt(line.nextToken());
-
 		typeForme = line.nextToken();
 		
+		// On reccueil les informations de la forme à partir du string de ServeurForme
 		x1 = Integer.parseInt(line.nextToken());
 		x2 = Integer.parseInt(line.nextToken());
 		y1 = Integer.parseInt(line.nextToken());
 		if(!typeForme.equals("<CERCLE>")) {	y2 = Integer.parseInt(line.nextToken());}		
+		
 		
 		if(typeForme.equals("<CARRE>")) {
 			forme = new Carre(x1,x2,y1,y2);
@@ -74,59 +82,53 @@ public class TabFormes {
 		else {
 			forme = new Ovale(x1,x2,y1,y2);
 		}	
+		
 		add(forme);
 	}
 	
+	/**
+	 * Ajout une forme au tableau de forme
+	 * @param forme : Forme à ajouter
+	 */
 	private void add(Forme forme) {
 		tab[i] = forme;
 		i++;
-		if(i == tableLength) {
+		if(i == TABLE_LENGTH) {
 			i = 0;
 		}
 		
-		if(size != tableLength) {
+		if(size != TABLE_LENGTH) {
 			size++;
-		}
-		
-		
+		}		
 	}
 	
-	
-	private Forme getForme(int i) {
+	/**
+	 * Retourne la forme du tableau de forme se trouvant à l'indice i
+	 * @param i
+	 * @return
+	 */
+	public Forme getForme(int i) {
 		return this.tab[i];
 	}
 	
-	private int getSize() {
+	/**
+	 * Retourne le nombre de forme du tableau de forme
+	 * @return
+	 */
+	public int getSize() {
 		return this.size;
 	}
 	
-	
+	/**
+	 * Affiche toutes les formes du tableau de formes.
+	 * @param g
+	 */
 	public void dessinerTabForme(Graphics g) {
+		// TODO : Les formes doivent s'afficher dans l'ordre de leur arrivé.		
 		int j;
-		 
 		for( j = 0; j < getSize(); j++) {
 			tab[j].dessine(g);
-		}	
+		}
 	}
-
-	
-	//public int getTableLength() {return tableLength;}
-/*	
-	TabFormes(){
-		table=new RectangularShape[this.tableLength];
-	}
-	
-	TabFormes(int length){
-		
-		tableLength = length;
-	    table=new RectangularShape[this.tableLength];
-	}
-*/	
-	
-
-	
-	
-	
-	
 
 }
