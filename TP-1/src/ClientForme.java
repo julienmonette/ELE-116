@@ -41,6 +41,8 @@ import javax.swing.JOptionPane;
 /**
  * Classe de l'application ClientForme
  * 
+ * Recoit des formes du serveur "ServeurForme" pour ensuite les affiché sur l'interface utilisateur.
+ * 
  * @author Colin Reid-Lapierre, Julien Monette
  */
 public class ClientForme extends JFrame{
@@ -49,7 +51,9 @@ public class ClientForme extends JFrame{
 	static private final int HAUTEUR_FENETRE = 500;
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
-	static private final int DELAI_AFFICHAGE_FORMES = 500;
+	
+	static private final int DELAI_AFFICHAGE_FORMES = 1000;
+	
 	static private final String DEFAULT_PORT_NUMBER = "10000";
 	static private final String DEFAULT_NUMBER_OF_SHAPES = "2"; 
 	
@@ -73,8 +77,7 @@ public class ClientForme extends JFrame{
 	
 	public String localHostPort = DEFAULT_PORT_NUMBER;
 	public String numberOfShapes = DEFAULT_NUMBER_OF_SHAPES;
-			
-	private int shapesDisplayed = 0;
+	public int shapesDisplayed = 0;
 	
 	/**Constructeur du Client forme. Crée entre autres l'interface Graphique.
 	 * 
@@ -90,7 +93,7 @@ public class ClientForme extends JFrame{
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);		
 		
-		JOptionPane portNumberBox = new JOptionPane();
+		// JOptionPane portNumberBox = new JOptionPane();
 		JOptionPane wrongPortNumberMessage = new JOptionPane();	
 		
 		menuItemConnect.addActionListener(new ActionListener(){	
@@ -181,8 +184,8 @@ public class ClientForme extends JFrame{
 		}
 		System.setOut(new PrintStream(f));		
 	
-		ClientForme clientForme = new ClientForme();
 		
+		ClientForme clientForme = new ClientForme();
 		clientForme.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 		clientForme.setVisible(true);
 		clientForme.setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
@@ -206,7 +209,7 @@ public class ClientForme extends JFrame{
 				int shapesToDisplay = Integer.parseInt(numberOfShapes);
 				shapesDisplayed = 0;
 				
-				while ( (stopButton != true ) && ( shapesDisplayed < shapesToDisplay )  ) {
+				while (  !stopButton  && ( shapesDisplayed < shapesToDisplay )  ) {
 					
 					try {
 						Thread.sleep(DELAI_AFFICHAGE_FORMES);
