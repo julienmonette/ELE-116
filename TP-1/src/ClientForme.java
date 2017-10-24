@@ -186,8 +186,10 @@ public class ClientForme extends JFrame{
 					Integer.parseInt(numberOfShapes);
 				}
 				catch(NumberFormatException e3) {
-					JOptionPane.showMessageDialog(panel, "Format incorrect", "erreur",
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(panel, "Le nombre de forme(s) à générer semble incorrect."
+							+ "\n                  Valeur réinitialisée à 15.",
+							"Erreur",
+							JOptionPane.WARNING_MESSAGE);
 					numberOfShapes = DEFAULT_NUMBER_OF_SHAPES;
 				}
 			}
