@@ -59,7 +59,7 @@ public class ClientForme extends JFrame{
 	
 	private JMenu menuServeur = new JMenu("Serveur");
 	private JMenuItem menuItemConnect = new  JMenuItem("Se connecter...");
-	private JMenuItem menuItemDisconnect = new  JMenuItem("Déconnection");
+	private JMenuItem menuItemDisconnect = new  JMenuItem("Déconnexion");
 	private JMenuItem menuItemSetPort = new  JMenuItem("Paramètres Serveur");
 	
 	private JMenu menuCommandes = new JMenu("Formes");
