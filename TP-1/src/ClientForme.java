@@ -3,13 +3,13 @@ Cours : ELE116
 Session : AUT2017
 Groupe : 01
 Projet : Laboratoire #1
-Étudiant(e)(s) : 	Colin Reid-Lapierre
+Ã‰tudiant(e)(s) : 	Colin Reid-Lapierre
 					Julien Monette
 Code(s) perm. : 	REIC11069309
 					XXXXXXXXX					
 Professeur : Rita Noumeir
 Nom du fichier : ClientForme.java
-Date création : 2017-09-11
+Date crÃ©ation : 2017-09-11
 Date dern. modif. 2017-10-18
 
 *******************************************************
@@ -51,9 +51,7 @@ public class ClientForme extends JFrame{
 	static private final int HAUTEUR_FENETRE = 500;
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
-	
 	static private final int DELAI_AFFICHAGE_FORMES = 500;
-	
 	static private final String DEFAULT_PORT_NUMBER = "10000";
 	static private final String DEFAULT_NUMBER_OF_SHAPES = "15"; 
 	
@@ -61,14 +59,14 @@ public class ClientForme extends JFrame{
 	
 	private JMenu menuServeur = new JMenu("Serveur");
 	private JMenuItem menuItemConnect = new  JMenuItem("Se connecter...");
-	private JMenuItem menuItemDisconnect = new  JMenuItem("Déconnection");
-	private JMenuItem menuItemSetPort = new  JMenuItem("Paramètres Serveur");
+	private JMenuItem menuItemDisconnect = new  JMenuItem("DÃ©connection");
+	private JMenuItem menuItemSetPort = new  JMenuItem("ParamÃ¨tres Serveur");
 	
 	private JMenu menuCommandes = new JMenu("Formes");
-	private JMenuItem menuItemStart = new  JMenuItem("Démarrer");
+	private JMenuItem menuItemStart = new  JMenuItem("DÃ©marrer");
 	private JMenuItem menuItemPause = new JMenuItem("Pause");
-	private JMenuItem menuItemStop = new  JMenuItem("Arrêt");
-	private JMenuItem menuItemShapeConfig = new  JMenuItem("Paramètres Forme");
+	private JMenuItem menuItemStop = new  JMenuItem("ArrÃªt");
+	private JMenuItem menuItemShapeConfig = new  JMenuItem("ParamÃ¨tres Forme");
 	
 	public boolean isStopped = false;
 	public boolean isPaused =  false;
@@ -87,7 +85,7 @@ public class ClientForme extends JFrame{
 	private int mundo = 0;
 	
 	
-	/**Constructeur du Client forme. Crée entre autres l'interface Graphique.
+	/**Constructeur du Client forme. CrÃ©e entre autres l'interface Graphique.
 	 * 
 	 * Contient les actions listener.
 	 */
@@ -115,11 +113,13 @@ public class ClientForme extends JFrame{
 					menuItemSetPort.setEnabled(false);
 					
 				} catch (NumberFormatException e1) {
-					JOptionPane.showMessageDialog(panel, "Vérifier le numéro de port !", "Connection impossible",
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(panel,"NumÃ©ro de port incorrect. ( Par dÃ©faut : 10000 )",
+							"Connection Ã  ServeurForme impossible",
+							JOptionPane.WARNING_MESSAGE);
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(panel, "Vérifier le numéro de port !", "Connection impossible",
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(panel,"VÃ©rifier que ServeurForme est actif.",
+							"Connection Ã  ServeurForme impossible",
+							JOptionPane.WARNING_MESSAGE);
 				}
 	
 			}
@@ -181,7 +181,7 @@ public class ClientForme extends JFrame{
 			public void actionPerformed(ActionEvent e ) {		 
     		
 				numberOfShapes = JOptionPane.showInputDialog(
-						"Nombre de formes à afficher : ", numberOfShapes);
+						"Nombre de formes Ã  afficher : ", numberOfShapes);
 				try{
 					Integer.parseInt(numberOfShapes);
 				}
@@ -195,7 +195,7 @@ public class ClientForme extends JFrame{
 				
 	}
 	
-	/** Méthode Main de ClienForme
+	/** MÃ©thode Main de ClienForme
 	 * 
 	 * @param args
 	 */
@@ -221,7 +221,7 @@ public class ClientForme extends JFrame{
 	}
 	
 	/**
-	 *  Dessine le nombre de formes désirés sur l'interface
+	 *  Dessine le nombre de formes dÃ©sirÃ©s sur l'interface
 	 *  
 	 */
 	private void drawShapes(){
@@ -230,7 +230,7 @@ public class ClientForme extends JFrame{
 		
 			/*
 			 * On utilise doInBackground pour que le reste du programme puisse continuer
-			 * de fonctionner en même temps.
+			 * de fonctionner en mÃªme temps.
 			 */
 			protected Object doInBackground() throws Exception {
 				
@@ -268,7 +268,7 @@ public class ClientForme extends JFrame{
 	}
 	
 	/**
-	 * Crée les différents menus déroulants de l'inteface swing
+	 * CrÃ©e les diffÃ©rents menus dÃ©roulants de l'inteface swing
 	 */
 	private void creerMenu() {	
 		menuBar.add(menuServeur);
@@ -290,9 +290,9 @@ public class ClientForme extends JFrame{
 	}
 	
 	/**
-	 * redéfinition de la méthode paint.
+	 * redÃ©finition de la mÃ©thode paint.
 	 * 
-	 * On ajoute les formes contenue dans la liste de forme dans tabFormes sur la fenêtre.
+	 * On ajoute les formes contenue dans la liste de forme dans tabFormes sur la fenÃªtre.
 	 */
 	public void paint(Graphics g) {	
 		super.paint(g);
