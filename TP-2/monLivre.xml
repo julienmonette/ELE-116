@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+ï»¿<?xml version="1.0" encoding="utf-8"?>
 <livre>
  <titre_livre>Fables fameuses</titre_livre>
  <auteur>Jean de La Fontaine</auteur>
@@ -7,14 +7,14 @@
   <paragraphe> Maitre Corbeau, sur un arbre perche, </paragraphe>
   <paragraphe> Tenait en son bec un fromage.</paragraphe>
   <paragraphe> Maitre Renard, par l'odeur alleche,</paragraphe>
-  <paragraphe> Lui tint à peu près ce langage :</paragraphe>
+  <paragraphe> Lui tint Ã  peu prÃ¨s ce langage :</paragraphe>
  </chapitre>
  <chapitre>
   <titre_chapitre>La cigale et la fourmi</titre_chapitre>
   <paragraphe>Et bonjour, Monsieur du Corbeau,</paragraphe>
-  <paragraphe>Que vous êtes joli ! que vous me semblez beau !</paragraphe>
+  <paragraphe>Que vous Ãªtes joli ! que vous me semblez beau !</paragraphe>
   <paragraphe>Sans mentir, si votre ramage</paragraphe>
-  <paragraphe>Se rapporte à votre plumage,</paragraphe>
-  <paragraphe>Vous êtes le Phénix des hôtes de ces bois.</paragraphe>
+  <paragraphe>Se rapporte Ã  votre plumage,</paragraphe>
+  <paragraphe>Vous Ãªtes le PhÃ©nix des hÃ´tes de ces bois.</paragraphe>
  </chapitre>
 </livre>
