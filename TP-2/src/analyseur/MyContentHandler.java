@@ -1,5 +1,7 @@
 package analyseur;
 
+import javax.xml.soap.Node;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -10,8 +12,10 @@ public class MyContentHandler implements ContentHandler {
 	@Override
 	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
 		// Ici on accède contenu (texte) du fichier xml
+
 		System.out.println(new String(arg0,arg1,arg2));
 		// TODO Ajouter le contenu dans la section data du noeud correcpondant
+		//Dans noeud, il faut appeler Append
 	}
 
 	
@@ -21,6 +25,7 @@ public class MyContentHandler implements ContentHandler {
 		System.out.println(arg1);
 		
 		// TODO Ajouter le noeud correspondand dans l'arbre
+		//Dans noeud, il faut appeler SetCursor
 	}
 
 	@Override

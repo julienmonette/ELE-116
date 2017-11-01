@@ -15,6 +15,7 @@ import analyseur.Parser;
 
 
 
+
 public class Client extends JFrame{
 
 	static private final int LARGEUR_FENETRE = 500;
@@ -30,6 +31,7 @@ public class Client extends JFrame{
 	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
 	private JPanel panel;
 
+	
 	
 	/**Constructeur du client. Crée entre autres l'interface Graphique.
 	 * 
