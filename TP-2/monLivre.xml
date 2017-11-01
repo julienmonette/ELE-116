@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<livre>
+<titre_livre>Fables fameuses</titre_livre>
+<auteur>Jean de La Fontaine</auteur>
+<chapitre>
+<titre_chapitre>Le corbeau et le renard</titre_chapitre>
+<paragraphe> Maître Corbeau, sur un arbre perché, </paragraphe>
+<paragraphe> Tenait en son bec un fromage .</paragraphe>
+<paragraphe> Maître Renard, par l'odeur alléché,</paragraphe>
+<paragraphe> Lui tint à peu près ce langage :</paragraphe>
+</chapitre>
+<chapitre>
+<titre_chapitre>La cigale et la fourmi</titre_chapitre>
+<paragraphe>…. :</paragraphe>
+…
+</chapitre>
+</livre>
