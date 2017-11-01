@@ -49,7 +49,7 @@ public class Client extends JFrame{
 			public void actionPerformed(ActionEvent e ) {		
 				
 				Parser parser = new Parser();
-				parser.parseXMLFile("FichierXML1.xml");	
+				parser.parseXMLFile("monLivre.xml");	
 				
 			}
 		});
