@@ -1,26 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Livre>
-  <Titre>
-    Un test parmis tant d'autre
-  </Titre>
-
- 
-  <Chapitre>
-    Test
-  </Chapitre>
-
-  <Texte>
+  <TitreLivre> Un Titre de livre </TitreLivre>
+   <Chapitre> Chapitre 1 </Chapitre>
+    <Texte>
     Ceci est un test de texte ou un texte de test?
-  </Texte>
-    
-  <Chapitre>
-    Deuxième test 
-  </Chapitre>
-
+    </Texte>
+  <Chapitre> Chapitre 2 </Chapitre>
   <Texte>
     Je texte, tu textes, il texte, nous textons, vous textez et ils textent!
   </Texte>
-  
-  
 </Livre>
