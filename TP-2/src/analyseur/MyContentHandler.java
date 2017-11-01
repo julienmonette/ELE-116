@@ -9,7 +9,18 @@ public class MyContentHandler implements ContentHandler {
 
 	@Override
 	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+		// Ici on accède contenu (texte) du fichier xml
 		System.out.println(new String(arg0,arg1,arg2));
+		// TODO Ajouter le contenu dans la section data du noeud correcpondant
+	}
+
+	
+	@Override
+	public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
+		// Ici on accède au tag du fichier xml
+		System.out.println(arg1);
+		
+		// TODO Ajouter le noeud correspondand dans l'arbre
 	}
 
 	@Override
@@ -59,10 +70,6 @@ public class MyContentHandler implements ContentHandler {
 		
 	}
 
-	@Override
-	public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
-		System.out.println(arg1);
-	}
 
 	@Override
 	public void startPrefixMapping(String arg0, String arg1) throws SAXException {
