@@ -3,20 +3,17 @@ package client;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+
+import javax.xml.parsers.*;
+
+import analyseur.Parser;
+
+
 
 public class Client extends JFrame{
 
@@ -24,17 +21,15 @@ public class Client extends JFrame{
 	static private final int HAUTEUR_FENETRE = 500;
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
-	static private final int DELAI_AFFICHAGE_FORMES = 500;
-	static private final String DEFAULT_PORT_NUMBER = "10000";
-	static private final String DEFAULT_NUMBER_OF_SHAPES = "15"; 
 	
 	private JMenuBar menuBar = new JMenuBar();
 	
 	private JMenu menuFile = new JMenu("F I L E ");
 	private JMenuItem menuItemImport = new  JMenuItem("I M P O R T ");
-	
+	private JMenuItem menuItemDisplayTitles= new  JMenuItem("D I S P L A Y   T I T L E S");
+	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
 	private JPanel panel;
-	
+
 	
 	/**Constructeur du client. Crée entre autres l'interface Graphique.
 	 * 
@@ -52,6 +47,9 @@ public class Client extends JFrame{
 		
 		menuItemImport.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {		
+				
+				Parser parser = new Parser();
+				parser.parseXMLFile("FichierXML1.xml");	
 				
 			}
 		});
@@ -77,7 +75,11 @@ public class Client extends JFrame{
 	private void creerMenu() {	
 		menuBar.add(menuFile);
 		menuFile.add(menuItemImport);
-		setJMenuBar(menuBar);	
+		menuFile.add(menuItemDisplayTitles);
+		menuFile.add(menuItemDisplayAll);
+		setJMenuBar(menuBar);		
+		menuItemDisplayTitles.setEnabled(false);
+		menuItemDisplayAll.setEnabled(false);	
 	}
 	
 	/**
