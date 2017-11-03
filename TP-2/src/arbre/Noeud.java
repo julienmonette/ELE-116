@@ -25,6 +25,10 @@ public class Noeud{
 		cursor = s;
 	}
 	
+	public Livre getLivre(int i) {
+		return livres.get(i);
+	}
+	
 	public int getNbLivre() {
 		return livres.size();
 	}
