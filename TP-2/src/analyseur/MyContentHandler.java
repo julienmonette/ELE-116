@@ -7,26 +7,59 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
+import arbre.Livre;
+import arbre.Noeud;
+
 public class MyContentHandler implements ContentHandler {
 
+	
+	Noeud noeud = new Noeud();
+	private String prevXMLTag;
+	
 	@Override
 	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+		
+		String s = new String(arg0,arg1,arg2);	
 		// Ici on accède contenu (texte) du fichier xml
-
-		System.out.println(new String(arg0,arg1,arg2));
-		// TODO Ajouter le contenu dans la section data du noeud correcpondant
-		//Dans noeud, il faut appeler Append
+		if(prevXMLTag.equals("titre_livre")) 
+			noeud.getLastLivre().setTitle(s);	
+		
+		else if(prevXMLTag.equals("auteur"))
+			noeud.getLastLivre().setAuteur(s);	
+		
+		else if(prevXMLTag.equals("titre_chapitre"))
+			noeud.getLastLivre().getLastChapitre().setTitre(s);
+		
+		else if(prevXMLTag.equals("paragraphe"))
+			noeud.getLastLivre().getLastChapitre().getLastParapgraphe().setText(s);
+		
+		prevXMLTag = "";
 	}
 
 	
 	@Override
-	public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
-		// Ici on accède au tag du fichier xml
-		System.out.println(arg1);
+	public void startElement(String arg0, String XMLTag, String arg2, Attributes arg3) throws SAXException {
 		
-		// TODO Ajouter le noeud correspondand dans l'arbre
-		//Dans noeud, il faut appeler SetCursor
+		switch(XMLTag){
+		case "livre":
+			noeud.addLivre();
+			break;
+			
+		case "chapitre":
+			noeud.getLastLivre().addChapitre();
+			break;	
+			
+		case "paragraphe":
+			noeud.getLastLivre().getLastChapitre().addParagraphe();
+		}
+		
+		prevXMLTag = XMLTag;
 	}
+	
+	public Noeud getNoeud() {
+		return noeud;
+	}
+	
 
 	@Override
 	public void endDocument() throws SAXException {
@@ -81,5 +114,7 @@ public class MyContentHandler implements ContentHandler {
 
 		
 	}
+	
+
 
 }
