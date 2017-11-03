@@ -3,6 +3,12 @@ package client;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -11,7 +17,9 @@ import javax.swing.JPanel;
 
 import javax.xml.parsers.*;
 
+import analyseur.MyContentHandler;
 import analyseur.Parser;
+import arbre.Noeud;
 
 
 
@@ -30,8 +38,9 @@ public class Client extends JFrame{
 	private JMenuItem menuItemDisplayTitles= new  JMenuItem("D I S P L A Y   T I T L E S");
 	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
 	private JPanel panel;
-
 	
+	Noeud noeud = new Noeud();
+	Parser parser = new Parser();
 	
 	/**Constructeur du client. Crée entre autres l'interface Graphique.
 	 * 
@@ -50,12 +59,14 @@ public class Client extends JFrame{
 		menuItemImport.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {		
 				
-				Parser parser = new Parser();
-				parser.parseXMLFile("monLivre.xml");	
+				MyContentHandler XMLHandler = new MyContentHandler();
+				parser.parseXMLFile("monLivre.xml",XMLHandler);	
+				noeud = XMLHandler.getNoeud();		
 				
+				logTree();
+							
 			}
-		});
-				
+		});		
 	}
 	
 	/** main Client
@@ -69,6 +80,7 @@ public class Client extends JFrame{
 		client.setVisible(true);
 		client.setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
 		client.setResizable(false);
+		
 	}
 	
 	/**
@@ -92,4 +104,63 @@ public class Client extends JFrame{
 	public void paint(Graphics g) {	
 		super.paint(g);
 	}	
+	
+	public void logTree() {
+		
+		int iLivre;
+		int iChapitre;
+		int iPara;
+	
+		PrintStream console = System.out;
+		
+		
+		FileOutputStream f = null;
+		try { f = new FileOutputStream("logTree.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.setOut(new PrintStream(f));	
+		
+		System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
+		System.out.println("//									L O G 												//");		
+	    System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
+	    System.out.println("");
+	    System.out.println("NB Livre     : " + noeud.getNbLivre());	
+	    System.out.println("NB Chapitres : " + noeud.getLastLivre().getNbChapitre());
+	    System.out.println("");
+	    System.out.println("------------------------------------------------------------------------------------------");
+	    System.out.println("");
+	    
+	    for(iLivre = 0; iLivre < noeud.getNbLivre(); iLivre++) {
+	    	System.out.println("LIVRE No."+iLivre);
+	    	System.out.println("");
+	    	System.out.println("	Titre  : "+noeud.getLivre(iLivre).getTitle());
+	    	System.out.println("	Auteur : "+noeud.getLivre(iLivre).getTitle());
+	    	System.out.println("");
+	    	for(iChapitre = 0; iChapitre < noeud.getLivre(iLivre).getNbChapitre(); iChapitre++) {
+	    		System.out.println("	CHAPITRE No."+iChapitre);
+	    		System.out.println("");
+	    		System.out.println("		Titre : "+noeud.getLivre(iLivre).getChapitre(iChapitre).getTitre());
+	    		System.out.println("");
+	    		for(iPara =0; iPara < noeud.getLivre(iLivre).getChapitre(iChapitre).getNbParagraphes(); iPara++) {
+	    			System.out.println("		  "+
+	    					noeud.getLivre(iLivre).getChapitre(iChapitre).getParagraphe(iPara).getText());
+	    		}		
+	    		System.out.println("		");
+	    	}
+	    	
+	    	
+	    }
+	    System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
+	    System.setOut(console);
+	    
+	}
+	
+	
+	
 }
+
+
+
+
+
