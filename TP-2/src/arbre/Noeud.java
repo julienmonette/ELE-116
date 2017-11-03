@@ -16,9 +16,21 @@ public class Noeud{
 	public void setData(String data) { this.data = data;}
 	
 	
+	public Livre getLastLivre() {
+		return livres.lastElement();
+	}
+	
 	public void setCursor(String s)
 	{
 		cursor = s;
+	}
+	
+	public int getNbLivre() {
+		return livres.size();
+	}
+	
+	public void addLivre(){
+		livres.add(new Livre());
 	}
 	
 	public void append(String s)
@@ -26,22 +38,30 @@ public class Noeud{
 		switch(cursor)
 		{
 		case "livre":
-			iterator_livre = iterator_livre + 1;
+			iterator_livre++;
 			iterator_chapitre = 0;
+			livres.addElement(new Livre());
 			break;
+			
 		case "titre_livre":
-			livres.elementAt(iterator_livre).setTitle(s);
 			break;
+			
 		case "auteur":
-			livres.elementAt(iterator_livre).setAuteur(s);
+		//	livres.elementAt(iterator_livre).setAuteur(s);
 			break;
+			
 		case "chapitre":
+			getLastLivre().addChapitre();
 			iterator_chapitre ++;
-			break;
+			break;	
+			
 		case "titre_chapitre":
-			livres.elementAt(iterator_livre).addChapitre(s);
+			//livres.elementAt(iterator_livre).getvChapitres.elementAt(iterator_chapitre).setTitre(s);
+			break;
+			
 		case "paragraphe":
-			livres.elementAt(iterator_livre).EditChapitre(iterator_chapitre).addText(s);
+			getLastLivre().getLastChapitre().addParagraphe();
+			
 		}
 	}
 	
