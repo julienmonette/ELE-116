@@ -1,28 +1,31 @@
 package client;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
+import javax.swing.JScrollPane;
 import javax.xml.parsers.*;
 
 import analyseur.MyContentHandler;
 import analyseur.Parser;
 import arbre.Noeud;
-
-
-
 
 public class Client extends JFrame{
 
@@ -30,14 +33,15 @@ public class Client extends JFrame{
 	static private final int HAUTEUR_FENETRE = 500;
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
+	static private final String NOM_FICHIER_HTML = "testHTML.html";
 	
 	private JMenuBar menuBar = new JMenuBar();
-	
 	private JMenu menuFile = new JMenu("F I L E ");
 	private JMenuItem menuItemImport = new  JMenuItem("I M P O R T ");
 	private JMenuItem menuItemDisplayTitles= new  JMenuItem("D I S P L A Y   T I T L E S");
 	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
 	private JPanel panel;
+	private JEditorPane editor;
 	
 	Noeud noeud = new Noeud();
 	Parser parser = new Parser();
@@ -49,12 +53,10 @@ public class Client extends JFrame{
 	public Client() {
 			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Application ClientForme");
+		setTitle("Application");
 		
 		creerMenu();
 		
-		panel = new JPanel();
-		getContentPane().add(panel);		
 		
 		menuItemImport.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {		
@@ -63,10 +65,35 @@ public class Client extends JFrame{
 				parser.parseXMLFile("monLivre.xml",XMLHandler);	
 				noeud = XMLHandler.getNoeud();		
 				
-				logTree();
-							
+				logTree();			
 			}
-		});		
+		});	
+		
+		menuItemDisplayAll.addActionListener(new ActionListener(){	
+			public void actionPerformed(ActionEvent e ) {				
+				try {
+					editor = new JEditorPane();
+					editor.setEditable(false);
+					java.net.URL htmlfile = Client.class.getResource("testHTML.html");
+					editor.setPage(htmlfile);
+			
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+				
+				JScrollPane scrollPane = new JScrollPane(editor);
+
+				//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				
+				getContentPane().add(scrollPane,BorderLayout.CENTER);
+				setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
+				setVisible(true);
+				setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
+			}
+		});	
+		
+		
 	}
 	
 	/** main Client
@@ -79,7 +106,6 @@ public class Client extends JFrame{
 		client.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 		client.setVisible(true);
 		client.setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
-		client.setResizable(false);
 		
 	}
 	
@@ -93,7 +119,7 @@ public class Client extends JFrame{
 		menuFile.add(menuItemDisplayAll);
 		setJMenuBar(menuBar);		
 		menuItemDisplayTitles.setEnabled(false);
-		menuItemDisplayAll.setEnabled(false);	
+		menuItemDisplayAll.setEnabled(true);	
 	}
 	
 	/**
@@ -105,6 +131,7 @@ public class Client extends JFrame{
 		super.paint(g);
 	}	
 	
+	
 	public void logTree() {
 		
 		int iLivre;
@@ -112,7 +139,6 @@ public class Client extends JFrame{
 		int iPara;
 	
 		PrintStream console = System.out;
-		
 		
 		FileOutputStream f = null;
 		try { f = new FileOutputStream("logTree.txt");
@@ -155,8 +181,6 @@ public class Client extends JFrame{
 	    System.setOut(console);
 	    
 	}
-	
-	
 	
 }
 
