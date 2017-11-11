@@ -19,7 +19,7 @@ import javax.xml.parsers.*;
 
 import analyseur.MyContentHandler;
 import analyseur.Parser;
-import arbre.Noeud;
+import arbre.Racine;
 
 
 
@@ -39,7 +39,7 @@ public class Client extends JFrame{
 	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
 	private JPanel panel;
 	
-	Noeud noeud = new Noeud();
+	Racine noeud = new Racine();
 	Parser parser = new Parser();
 	
 	/**Constructeur du client. Crée entre autres l'interface Graphique.

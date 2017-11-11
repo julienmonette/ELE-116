@@ -8,12 +8,12 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 import arbre.Livre;
-import arbre.Noeud;
+import arbre.Racine;
 
 public class MyContentHandler implements ContentHandler {
 
 	
-	Noeud noeud = new Noeud();
+	Racine noeud = new Racine();
 	private String prevXMLTag;
 	
 	@Override
@@ -56,7 +56,7 @@ public class MyContentHandler implements ContentHandler {
 		prevXMLTag = XMLTag;
 	}
 	
-	public Noeud getNoeud() {
+	public Racine getNoeud() {
 		return noeud;
 	}
 	
