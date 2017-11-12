@@ -2,7 +2,7 @@ package arbre;
 
 import java.util.Vector;
 
-public class Noeud{
+public class Root{
 
 	private String data;
 
