@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import visitor.Visitor;
 
+
 public class Bibliotheque implements Node{
 
 	private String data;
@@ -45,5 +46,4 @@ public class Bibliotheque implements Node{
 			getLivre(i).accept(visitor);
 		}
 	}
-	
 }

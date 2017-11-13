@@ -9,13 +9,15 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import arbre.Bibliotheque;
 
+
 public class Parser {
 
 	XMLReader reader; 
 	
 	public void parseXMLFile(String XLMFilename, MyContentHandler XMLHandler) {
 		try{
-			reader = XMLReaderFactory.createXMLReader();	
+			reader = XMLReaderFactory.createXMLReader();
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -26,8 +28,10 @@ public class Parser {
 		try {
 			reader.parse(XLMFilename);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

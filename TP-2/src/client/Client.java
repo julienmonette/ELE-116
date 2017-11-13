@@ -52,9 +52,11 @@ public class Client extends JFrame{
 	public FileOutputStream HTMLFile = null;
 	public Bibliotheque bibliotheque = new Bibliotheque();
 	public Visitor visitorPrintAll;
+
 	Parser parser = new Parser();
 	public PrintStream pout=null;
 	public String htmlFilePath;
+	
 	/**Constructeur du client. Crée entre autres l'interface Graphique.
 	 * 
 	 * Contient les actions listener.
@@ -87,13 +89,10 @@ public class Client extends JFrame{
 				try {		
 					editor = new JEditorPane();
 					editor.setEditable(false);
-					java.net.URL htmlfile = new URL("file:///"+htmlFilePath+"/"+HTML_FILE_NAME);//Thread.currentThread().getContextClassLoader().getResource("books.html");
-					System.out.println(htmlfile);
+					java.net.URL htmlfile = new URL("file:///"+htmlFilePath+"/"+HTML_FILE_NAME);
 					editor.setPage(htmlfile);
 				} catch (IOException e1) {		
 					e1.printStackTrace();
-					//new URL("file:///books.html");
-					//Client.class.getResource("testHTML.html");
 				}		
 				
 				JScrollPane scrollPane = new JScrollPane(editor);
@@ -161,12 +160,10 @@ public class Client extends JFrame{
 	/**
 	 * redéfinition de la méthode paint.
 	 * 
-	 * On ajoute les formes contenue dans la liste de forme dans tabFormes sur la fenêtre.
 	 */
 	public void paint(Graphics g) {	
 		super.paint(g);
 	}	
-	
 	
 	public void logTree() {
 		
@@ -208,8 +205,6 @@ public class Client extends JFrame{
 	    		}		
 	    		System.out.println("		");
 	    	}
-	    	
-	    	
 	    }
 	    System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
 	    System.setOut(console);

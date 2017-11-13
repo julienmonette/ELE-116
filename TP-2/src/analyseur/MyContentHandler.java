@@ -13,6 +13,8 @@ import arbre.Bibliotheque;
 public class MyContentHandler implements ContentHandler {
 
 	private Bibliotheque bibliotheque = new Bibliotheque();
+	
+
 	private String prevXMLTag;
 	
 	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
@@ -53,10 +55,10 @@ public class MyContentHandler implements ContentHandler {
 		prevXMLTag = XMLTag;
 	}
 	
+
 	public Bibliotheque getBibliotheque() {
 		return bibliotheque;
 	}
-	
 	public void endDocument() throws SAXException {
 		// TODO Auto-generated method stub
 		
