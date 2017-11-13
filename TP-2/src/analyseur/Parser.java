@@ -7,7 +7,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import arbre.Noeud;
+import arbre.Bibliotheque;
 
 public class Parser {
 
@@ -15,8 +15,7 @@ public class Parser {
 	
 	public void parseXMLFile(String XLMFilename, MyContentHandler XMLHandler) {
 		try{
-			reader = XMLReaderFactory.createXMLReader();
-			
+			reader = XMLReaderFactory.createXMLReader();	
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -27,10 +26,8 @@ public class Parser {
 		try {
 			reader.parse(XLMFilename);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,8 +1,7 @@
 package arbre;
+import visitor.Visitor;
 
-import java.util.Vector;
-
-public class Paragraphe {
+public class Paragraphe implements Node {
 
 	private String text="";
 	
@@ -12,5 +11,10 @@ public class Paragraphe {
 	
 	public String getText() {
 		return this.text;
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +27,10 @@ import javax.xml.parsers.*;
 
 import analyseur.MyContentHandler;
 import analyseur.Parser;
-import arbre.Noeud;
+import arbre.Bibliotheque;
+import visitor.Visitor;
+import visitor.VisitorPrintAll;
+
 
 public class Client extends JFrame{
 
@@ -33,19 +38,23 @@ public class Client extends JFrame{
 	static private final int HAUTEUR_FENETRE = 500;
 	static private final int POSITION_FENETRE_X = 0;
 	static private final int POSITION_FENETRE_Y = 0;
-	static private final String NOM_FICHIER_HTML = "testHTML.html";
+	static private final String HTML_FILE_NAME = "unFichierHTML.html";
+	static private final String HTML_FILE_DIR_NAME = "html";
+	static private final PrintStream console = System.out;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFile = new JMenu("F I L E ");
 	private JMenuItem menuItemImport = new  JMenuItem("I M P O R T ");
 	private JMenuItem menuItemDisplayTitles= new  JMenuItem("D I S P L A Y   T I T L E S");
 	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
-	private JPanel panel;
 	private JEditorPane editor;
 	
-	Noeud noeud = new Noeud();
+	public FileOutputStream HTMLFile = null;
+	public Bibliotheque bibliotheque = new Bibliotheque();
+	public Visitor visitorPrintAll;
 	Parser parser = new Parser();
-	
+	public PrintStream pout=null;
+	public String htmlFilePath;
 	/**Constructeur du client. Crée entre autres l'interface Graphique.
 	 * 
 	 * Contient les actions listener.
@@ -57,34 +66,37 @@ public class Client extends JFrame{
 		
 		creerMenu();
 		
-		
 		menuItemImport.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {		
 				
 				MyContentHandler XMLHandler = new MyContentHandler();
 				parser.parseXMLFile("monLivre.xml",XMLHandler);	
-				noeud = XMLHandler.getNoeud();		
+				bibliotheque = XMLHandler.getBibliotheque();		
 				
 				logTree();			
 			}
 		});	
 		
 		menuItemDisplayAll.addActionListener(new ActionListener(){	
-			public void actionPerformed(ActionEvent e ) {				
-				try {
+			public void actionPerformed(ActionEvent e ) {	
+				
+				openHTMLFile();
+				bibliotheque.accept(visitorPrintAll);
+				closeHTMLFile();
+			
+				try {		
 					editor = new JEditorPane();
 					editor.setEditable(false);
-					java.net.URL htmlfile = Client.class.getResource("testHTML.html");
+					java.net.URL htmlfile = new URL("file:///"+htmlFilePath+"/"+HTML_FILE_NAME);//Thread.currentThread().getContextClassLoader().getResource("books.html");
+					System.out.println(htmlfile);
 					editor.setPage(htmlfile);
-			
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+				} catch (IOException e1) {		
 					e1.printStackTrace();
-				}	
+					//new URL("file:///books.html");
+					//Client.class.getResource("testHTML.html");
+				}		
 				
 				JScrollPane scrollPane = new JScrollPane(editor);
-
-				//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				
 				getContentPane().add(scrollPane,BorderLayout.CENTER);
 				setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
@@ -93,15 +105,14 @@ public class Client extends JFrame{
 			}
 		});	
 		
-		
 	}
+	
 	
 	/** main Client
 	 * 
 	 * @param args
 	 */
-	public static void main(String args[] ) {
-	    
+	public static void main(String args[] ) {  
 		Client client = new Client();
 		client.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 		client.setVisible(true);
@@ -122,6 +133,31 @@ public class Client extends JFrame{
 		menuItemDisplayAll.setEnabled(true);	
 	}
 	
+	public void openHTMLFile() {
+		
+		File directory = new File(HTML_FILE_DIR_NAME);
+		htmlFilePath = directory.getAbsolutePath();
+		directory.mkdir();
+		
+		try {	
+			pout = new PrintStream(new BufferedOutputStream(new FileOutputStream(HTML_FILE_DIR_NAME+"/"+HTML_FILE_NAME)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		visitorPrintAll = new VisitorPrintAll(pout);
+
+		pout.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">");
+		pout.println("<html>");
+		pout.println("<body>");
+	}
+	
+	public void closeHTMLFile() {
+		pout.println("</body>");
+		pout.println("</html>");
+		pout.close();
+	}	
+	
 	/**
 	 * redéfinition de la méthode paint.
 	 * 
@@ -137,8 +173,6 @@ public class Client extends JFrame{
 		int iLivre;
 		int iChapitre;
 		int iPara;
-	
-		PrintStream console = System.out;
 		
 		FileOutputStream f = null;
 		try { f = new FileOutputStream("logTree.txt");
@@ -151,26 +185,26 @@ public class Client extends JFrame{
 		System.out.println("//									L O G 												//");		
 	    System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
 	    System.out.println("");
-	    System.out.println("NB Livre     : " + noeud.getNbLivre());	
-	    System.out.println("NB Chapitres : " + noeud.getLastLivre().getNbChapitre());
+	    System.out.println("NB Livre     : " + bibliotheque.getNbLivre());	
+	    System.out.println("NB Chapitres : " + bibliotheque.getLastLivre().getNbChapitre());
 	    System.out.println("");
 	    System.out.println("------------------------------------------------------------------------------------------");
 	    System.out.println("");
 	    
-	    for(iLivre = 0; iLivre < noeud.getNbLivre(); iLivre++) {
+	    for(iLivre = 0; iLivre < bibliotheque.getNbLivre(); iLivre++) {
 	    	System.out.println("LIVRE No."+iLivre);
 	    	System.out.println("");
-	    	System.out.println("	Titre  : "+noeud.getLivre(iLivre).getTitle());
-	    	System.out.println("	Auteur : "+noeud.getLivre(iLivre).getTitle());
+	    	System.out.println("	Titre  : "+bibliotheque.getLivre(iLivre).getTitle());
+	    	System.out.println("	Auteur : "+bibliotheque.getLivre(iLivre).getTitle());
 	    	System.out.println("");
-	    	for(iChapitre = 0; iChapitre < noeud.getLivre(iLivre).getNbChapitre(); iChapitre++) {
+	    	for(iChapitre = 0; iChapitre < bibliotheque.getLivre(iLivre).getNbChapitre(); iChapitre++) {
 	    		System.out.println("	CHAPITRE No."+iChapitre);
 	    		System.out.println("");
-	    		System.out.println("		Titre : "+noeud.getLivre(iLivre).getChapitre(iChapitre).getTitre());
+	    		System.out.println("		Titre : "+bibliotheque.getLivre(iLivre).getChapitre(iChapitre).getTitre());
 	    		System.out.println("");
-	    		for(iPara =0; iPara < noeud.getLivre(iLivre).getChapitre(iChapitre).getNbParagraphes(); iPara++) {
+	    		for(iPara =0; iPara < bibliotheque.getLivre(iLivre).getChapitre(iChapitre).getNbParagraphes(); iPara++) {
 	    			System.out.println("		  "+
-	    					noeud.getLivre(iLivre).getChapitre(iChapitre).getParagraphe(iPara).getText());
+	    					bibliotheque.getLivre(iLivre).getChapitre(iChapitre).getParagraphe(iPara).getText());
 	    		}		
 	    		System.out.println("		");
 	    	}
@@ -183,7 +217,6 @@ public class Client extends JFrame{
 	}
 	
 }
-
 
 
 

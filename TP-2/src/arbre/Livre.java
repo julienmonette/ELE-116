@@ -1,8 +1,8 @@
 package arbre;
-
 import java.util.Vector;
+import visitor.Visitor;
 
-public class Livre {
+public class Livre implements Node {
 
 	private Vector<Chapitre> chapitres = new Vector <Chapitre>();
 	private String title;
@@ -44,6 +44,13 @@ public class Livre {
 	
 	public void setAuteur(String s) {
 		this.auteur = s;
+	}
+
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+		for(int i=0; i<getNbChapitre(); i++) {
+			getChapitre(i).accept(visitor);
+		}
 	}
 	
 	

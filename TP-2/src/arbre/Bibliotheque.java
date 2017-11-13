@@ -2,7 +2,9 @@ package arbre;
 
 import java.util.Vector;
 
-public class Root{
+import visitor.Visitor;
+
+public class Bibliotheque implements Node{
 
 	private String data;
 
@@ -37,35 +39,10 @@ public class Root{
 		livres.add(new Livre());
 	}
 	
-	public void append(String s)
-	{
-		switch(cursor)
-		{
-		case "livre":
-			iterator_livre++;
-			iterator_chapitre = 0;
-			livres.addElement(new Livre());
-			break;
-			
-		case "titre_livre":
-			break;
-			
-		case "auteur":
-		//	livres.elementAt(iterator_livre).setAuteur(s);
-			break;
-			
-		case "chapitre":
-			getLastLivre().addChapitre();
-			iterator_chapitre ++;
-			break;	
-			
-		case "titre_chapitre":
-			//livres.elementAt(iterator_livre).getvChapitres.elementAt(iterator_chapitre).setTitre(s);
-			break;
-			
-		case "paragraphe":
-			getLastLivre().getLastChapitre().addParagraphe();
-			
+	public void accept(Visitor visitor) {	
+		visitor.visit(this);
+		for( int i=0; i < this.getNbLivre(); i++) {
+			getLivre(i).accept(visitor);
 		}
 	}
 	
