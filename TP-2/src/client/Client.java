@@ -30,7 +30,7 @@ import analyseur.Parser;
 import arbre.Bibliotheque;
 import visitor.Visitor;
 import visitor.VisitorPrintAll;
-
+import visitor.VisitorPrintTITLE;
 
 public class Client extends JFrame{
 
@@ -52,6 +52,7 @@ public class Client extends JFrame{
 	public FileOutputStream HTMLFile = null;
 	public Bibliotheque bibliotheque = new Bibliotheque();
 	public Visitor visitorPrintAll;
+	public Visitor visitorPrintTitle;
 
 	Parser parser = new Parser();
 	public PrintStream pout=null;
@@ -104,6 +105,31 @@ public class Client extends JFrame{
 			}
 		});	
 		
+		menuItemDisplayTitles.addActionListener(new ActionListener(){	
+			public void actionPerformed(ActionEvent e ) {	
+				
+				openHTMLFile();
+				bibliotheque.accept(visitorPrintTitle);
+				closeHTMLFile();
+			
+				try {		
+					editor = new JEditorPane();
+					editor.setEditable(false);
+					java.net.URL htmlfile = new URL("file:///"+htmlFilePath+"/"+HTML_FILE_NAME);
+					editor.setPage(htmlfile);
+				} catch (IOException e1) {		
+					e1.printStackTrace();
+				}		
+				
+				JScrollPane scrollPane = new JScrollPane(editor);
+				
+				getContentPane().add(scrollPane,BorderLayout.CENTER);
+				setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
+				setVisible(true);
+				setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
+			}
+		});	
+		
 	}
 	
 	
@@ -128,7 +154,7 @@ public class Client extends JFrame{
 		menuFile.add(menuItemDisplayTitles);
 		menuFile.add(menuItemDisplayAll);
 		setJMenuBar(menuBar);		
-		menuItemDisplayTitles.setEnabled(false);
+		menuItemDisplayTitles.setEnabled(true);
 		menuItemDisplayAll.setEnabled(true);	
 	}
 	
@@ -145,6 +171,7 @@ public class Client extends JFrame{
 		}
 
 		visitorPrintAll = new VisitorPrintAll(pout);
+		visitorPrintTitle = new VisitorPrintTITLE(pout);
 
 		pout.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">");
 		pout.println("<html>");
