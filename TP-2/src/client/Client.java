@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.xml.parsers.*;
@@ -72,11 +73,13 @@ public class Client extends JFrame{
 		menuItemImport.addActionListener(new ActionListener(){	
 			public void actionPerformed(ActionEvent e ) {		
 				
+				String xmlFilename = null;
+				xmlFilename = JOptionPane.showInputDialog("Entrer le nom du fichier .xml (avec extension)", xmlFilename);
+			
 				MyContentHandler XMLHandler = new MyContentHandler();
-				parser.parseXMLFile("monLivre.xml",XMLHandler);	
+				parser.parseXMLFile(xmlFilename,XMLHandler);	
 				bibliotheque = XMLHandler.getBibliotheque();		
-				
-				logTree();			
+				//logTree();			
 			}
 		});	
 		
@@ -191,6 +194,9 @@ public class Client extends JFrame{
 	public void paint(Graphics g) {	
 		super.paint(g);
 	}	
+	
+	
+	
 	
 	public void logTree() {
 		
