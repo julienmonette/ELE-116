@@ -1,7 +1,27 @@
+/******************************************************
+Cours : ELE116
+Session : AUT2017
+Groupe : 01
+Projet : Laboratoire #2
+Étudiant(e)(s) : 	Colin Reid-Lapierre
+					Julien Monette
+Code(s) perm. : 	REIC11069309
+					MONJ28079501					
+Professeur : Rita Noumeir
+Nom du fichier : Client.java
+Date création : 2017-10-31
+Date dern. modif. 2017-11-14
+
+*******************************************************
+Historique des modifications
+*******************************************************
+2017-11-14 Version initiale
+*******************************************************/
+
+
 package client;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,21 +31,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.xml.parsers.*;
-
 import analyseur.MyContentHandler;
 import analyseur.Parser;
 import arbre.Bibliotheque;
@@ -35,10 +48,13 @@ import visitor.VisitorPrintTITLE;
 
 
 /**
- * @author Colin
- *
+ * Classe de l'application XML READER.
+ * 
+ * Permet de lire un fichier XML et d'afficher soit l'entièreté du contenu,
+ * soit seulement le titre du livre et des chapitres.
+ * 
+ * @author Colin Reid-Lapierre et Julien Monette
  */
-
 public class Client extends JFrame{
 
 	static private final int LARGEUR_FENETRE = 500;
@@ -72,7 +88,7 @@ public class Client extends JFrame{
 	public Client() {
 			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Application");
+		setTitle("XML READER");
 		
 		creerMenu();
 		
@@ -171,7 +187,9 @@ public class Client extends JFrame{
 	}
 	
 	/**
-	 * 
+	 *  Crée le repertoire du fichier html
+	 *  Cree le fichier html et ajoute l'en-tête de ce dernier.
+	 *  
 	 */
 	public void openHTMLFile() {
 		
@@ -193,6 +211,10 @@ public class Client extends JFrame{
 		pout.println("<body>");
 	}
 	
+	
+	/**
+	 * Finalise le fichier html et ferme ce dernier.
+	 */
 	public void closeHTMLFile() {
 		pout.println("</body>");
 		pout.println("</html>");
@@ -207,9 +229,10 @@ public class Client extends JFrame{
 		super.paint(g);
 	}	
 	
-	
-	
-	
+
+	/**
+	 * Fonction pour validation. Génère logtree.txt et y écrit le livre du fichier xml importé
+	 */
 	public void logTree() {
 		
 		int iLivre;
@@ -252,10 +275,8 @@ public class Client extends JFrame{
 	    	}
 	    }
 	    System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
-	    System.setOut(console);
-	    
+	    System.setOut(console);   
 	}
-	
 }
 
 
