@@ -33,6 +33,12 @@ import visitor.Visitor;
 import visitor.VisitorPrintAll;
 import visitor.VisitorPrintTITLE;
 
+
+/**
+ * @author Colin
+ *
+ */
+
 public class Client extends JFrame{
 
 	static private final int LARGEUR_FENETRE = 500;
@@ -44,10 +50,10 @@ public class Client extends JFrame{
 	static private final PrintStream console = System.out;
 	
 	private JMenuBar menuBar = new JMenuBar();
-	private JMenu menuFile = new JMenu("F I L E ");
-	private JMenuItem menuItemImport = new  JMenuItem("I M P O R T ");
-	private JMenuItem menuItemDisplayTitles= new  JMenuItem("D I S P L A Y   T I T L E S");
-	private JMenuItem menuItemDisplayAll = new  JMenuItem("D I S P L A Y   A L L");
+	private JMenu menuFile = new JMenu("File");
+	private JMenuItem menuItemImport = new  JMenuItem("Import");
+	private JMenuItem menuItemDisplayTitles= new  JMenuItem("Display Titles");
+	private JMenuItem menuItemDisplayAll = new  JMenuItem("Display Books");
 	private JEditorPane editor;
 	
 	public FileOutputStream HTMLFile = null;
@@ -78,8 +84,11 @@ public class Client extends JFrame{
 			
 				MyContentHandler XMLHandler = new MyContentHandler();
 				parser.parseXMLFile(xmlFilename,XMLHandler);	
-				bibliotheque = XMLHandler.getBibliotheque();		
-				//logTree();			
+				bibliotheque = XMLHandler.getBibliotheque();			
+				menuItemDisplayAll.setEnabled(true);
+				menuItemDisplayTitles.setEnabled(true);
+				
+				//logTree();
 			}
 		});	
 		
@@ -136,16 +145,16 @@ public class Client extends JFrame{
 	}
 	
 	
-	/** main Client
-	 * 
+	/**
+	 * Main du Client (Application) 
 	 * @param args
 	 */
 	public static void main(String args[] ) {  
+		
 		Client client = new Client();
 		client.setSize(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 		client.setVisible(true);
 		client.setLocation(POSITION_FENETRE_X,POSITION_FENETRE_Y);
-		
 	}
 	
 	/**
@@ -157,10 +166,13 @@ public class Client extends JFrame{
 		menuFile.add(menuItemDisplayTitles);
 		menuFile.add(menuItemDisplayAll);
 		setJMenuBar(menuBar);		
-		menuItemDisplayTitles.setEnabled(true);
-		menuItemDisplayAll.setEnabled(true);	
+		menuItemDisplayTitles.setEnabled(false);
+		menuItemDisplayAll.setEnabled(false);	
 	}
 	
+	/**
+	 * 
+	 */
 	public void openHTMLFile() {
 		
 		File directory = new File(HTML_FILE_DIR_NAME);
