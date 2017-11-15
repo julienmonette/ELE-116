@@ -44,7 +44,7 @@ import analyseur.Parser;
 import arbre.Bibliotheque;
 import visitor.Visitor;
 import visitor.VisitorPrintAll;
-import visitor.VisitorPrintTITLE;
+import visitor.VisitorPrintTitles;
 
 
 /**
@@ -204,7 +204,7 @@ public class Client extends JFrame{
 		}
 
 		visitorPrintAll = new VisitorPrintAll(pout);
-		visitorPrintTitle = new VisitorPrintTITLE(pout);
+		visitorPrintTitle = new VisitorPrintTitles(pout);
 
 		pout.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">");
 		pout.println("<html>");

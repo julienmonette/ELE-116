@@ -8,7 +8,7 @@ Projet : Laboratoire #2
 Code(s) perm. : 	REIC11069309
 					MONJ28079501					
 Professeur : Rita Noumeir
-Nom du fichier : VisitorPrintAll.java
+Nom du fichier : VisitorPrintTitles.java
 Date création : 2017-10-31
 Date dern. modif. 2017-11-14
 
@@ -20,35 +20,36 @@ Historique des modifications
 
 package visitor;
 
+import arbre.Bibliotheque;
 import arbre.Chapitre;
 import arbre.Livre;
 import arbre.Paragraphe;
 import java.io.PrintStream;
-import arbre.Bibliotheque;
 
 /**
- * Visite chacun des élément du de la bibliotheque et les écrit dans un fichier html avec les
- * bonnes balises.
+ * Classe visiteur permettant d'écrire dans le fichier désigné par pout seulement les titres des livres et des 
+ * chapitre contenu dans l'arbre de données donné au constructeur. 
  * 
- * @author Colin Reid-Lapierre
+ * @author Julien Monette
+ *
  */
-public class VisitorPrintAll implements Visitor {
+public class VisitorPrintTitles implements Visitor{
 
 	PrintStream pout;
 	
 	/**
-	 * Consctructeur. Initialise le Printstream pour le fichier html qui sera généré
-	 * 
-	 * @param pout
+	 * Constructeur. Reçoit le Printstream vers lequel les données doivent être écrites.
+	 * @param pout : PrintStream désignant le fichier html vers lequel écrire
 	 */
-	public VisitorPrintAll(PrintStream pout) {
+	public VisitorPrintTitles(PrintStream pout) {
 		this.pout = pout;
 	}
 	
 	/**
 	 * Visiteur de bibliotheque
 	 */
-	public void visit(Bibliotheque root){};
+	public void visit(Bibliotheque root) {}
+
 
 	/**
 	 * Visiteur de Chapitre
@@ -62,14 +63,12 @@ public class VisitorPrintAll implements Visitor {
 	 */
 	public void visit(Livre livre) {
 		pout.println("<h1>"+livre.getTitle()+"</h1>");
-		pout.println("Auteur : "+ livre.getAuteur());
 	}
 
 	/**
 	 * Visiteur de paragraphe
 	 */
 	public void visit(Paragraphe paragraphe) {
-		pout.println("<p>"+paragraphe.getText()+"</p>");
+		
 	}
-
 }
