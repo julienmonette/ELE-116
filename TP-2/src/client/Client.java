@@ -95,13 +95,21 @@ public class Client extends JFrame{
 			public void actionPerformed(ActionEvent e ) {		
 				
 				String xmlFilename = null;
-				xmlFilename = JOptionPane.showInputDialog("Entrer le nom du fichier .xml (avec extension)", xmlFilename);
+				xmlFilename = JOptionPane.showInputDialog("Entrer le nom du fichier .xml", xmlFilename);
 			
 				MyContentHandler XMLHandler = new MyContentHandler();
-				parser.parseXMLFile(xmlFilename,XMLHandler);	
-				bibliotheque = XMLHandler.getBibliotheque();			
-				menuItemDisplayAll.setEnabled(true);
-				menuItemDisplayTitles.setEnabled(true);
+				try {
+					parser.parseXMLFile(xmlFilename,XMLHandler);
+					bibliotheque = XMLHandler.getBibliotheque();			
+					menuItemDisplayAll.setEnabled(true);
+					menuItemDisplayTitles.setEnabled(true);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(editor,"Veuillez respecter le format \"nomDuFichier.xml\" "
+							+ "\nLe fichier doit être dans le même repertoire que l'exécutable.",
+							"Fichier XML introuvable",
+							JOptionPane.WARNING_MESSAGE);
+				}	
+		
 				
 				//logTree();
 			}
@@ -221,7 +229,7 @@ public class Client extends JFrame{
 	}	
 	
 	/**
-	 * redéfinition de la méthode paint.
+	 * Redéfinition de la méthode paint.
 	 * 
 	 */
 	public void paint(Graphics g) {	
