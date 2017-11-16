@@ -39,7 +39,7 @@ public class Parser {
 	 * @param XLMFilename : fichier xml à lire
 	 * @param XMLHandler : Handler auquel le contenu sera envoyé.
 	 */
-	public void parseXMLFile(String XLMFilename, MyContentHandler XMLHandler) {
+	public void parseXMLFile(String XLMFilename, MyContentHandler XMLHandler) throws IOException {
 		try{
 			reader = XMLReaderFactory.createXMLReader();
 		}
@@ -52,7 +52,7 @@ public class Parser {
 		try {
 			reader.parse(XLMFilename);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw e;
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
