@@ -72,14 +72,13 @@ public class Client extends JFrame{
 	private JMenuItem menuItemDisplayAll = new  JMenuItem("Display Books");
 	private JEditorPane editor;
 	
-	public FileOutputStream HTMLFile = null;
-	public Bibliotheque bibliotheque = new Bibliotheque();
-	public Visitor visitorPrintAll;
-	public Visitor visitorPrintTitle;
+	private Bibliotheque bibliotheque = new Bibliotheque();
+	private Visitor visitorPrintAll;
+	private Visitor visitorPrintTitle;
 
-	Parser parser = new Parser();
-	public PrintStream pout=null;
-	public String htmlFilePath;
+	private Parser parser = new Parser();
+	private PrintStream pout=null;
+	private String htmlFilePath;
 	
 	/**Constructeur du client. Crée entre autres l'interface Graphique.
 	 * 
