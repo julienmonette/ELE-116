@@ -1,5 +1,7 @@
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -84,7 +86,7 @@ public class PaintView extends JFrame implements Observer {
 			} catch (IOException e1) {}
 	    	JLabel imageLabel = new JLabel(new ImageIcon(image));
 	    	imagePane.add(imageLabel);
-	    	imagePane.repaint();
+	    	setSize(image.getWidth(),image.getHeight());
 	    }           
 	}
 	
@@ -93,4 +95,8 @@ public class PaintView extends JFrame implements Observer {
 			System.exit(0);
 		}           
 	}
+	
 }
+
+
+
