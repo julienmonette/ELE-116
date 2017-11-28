@@ -14,6 +14,7 @@ public class PaintView extends JFrame implements Observer {
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	
+	
 	private PaintControler control;
 	private JPanel panel = new JPanel();
 	
