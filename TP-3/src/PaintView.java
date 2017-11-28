@@ -16,8 +16,13 @@ public class PaintView extends JFrame implements Observer {
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	
+	
+	private BufferedImage image;
+	private ImagePanel imagePane = new ImagePanel();
+	
 	private PaintControler control;
 	private JPanel panel = new JPanel();
+	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
 	private JMenuItem menuItemOuvrir = new JMenuItem("Ouvrir");
@@ -38,6 +43,8 @@ public class PaintView extends JFrame implements Observer {
 		createMenuBar();	
 	
 	}
+	
+
 	
 	private void createMenuBar() {
 		menuBar.add(menuFichier);
@@ -64,5 +71,8 @@ public class PaintView extends JFrame implements Observer {
 	    }           
 	}
 
+
+
+	
 	 
 }
