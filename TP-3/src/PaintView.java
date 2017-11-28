@@ -1,5 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,10 +16,8 @@ public class PaintView extends JFrame implements Observer {
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	
-	
 	private PaintControler control;
 	private JPanel panel = new JPanel();
-	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
 	private JMenuItem menuItemOuvrir = new JMenuItem("Ouvrir");
@@ -38,8 +38,6 @@ public class PaintView extends JFrame implements Observer {
 		createMenuBar();	
 	
 	}
-	
-
 	
 	private void createMenuBar() {
 		menuBar.add(menuFichier);
@@ -66,8 +64,5 @@ public class PaintView extends JFrame implements Observer {
 	    }           
 	}
 
-
-
-	
 	 
 }
