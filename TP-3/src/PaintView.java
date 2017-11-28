@@ -81,7 +81,7 @@ public class PaintView extends JFrame implements Observer {
 			File imageFile =  fileChooser.getSelectedFile();
 	    	try {
 				image = ImageIO.read(imageFile);
-			} catch (IOException e1) {System.out.println("OUPS");}
+			} catch (IOException e1) {}
 	    	JLabel imageLabel = new JLabel(new ImageIcon(image));
 	    	imagePane.add(imageLabel);
 	    	imagePane.repaint();
