@@ -1,6 +1,18 @@
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,59 +26,77 @@ public class PaintView extends JFrame implements Observer {
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	
+	private BufferedImage image;
+	private ImagePanel imagePane = new ImagePanel();
+	
 	private PaintControler control;
-	private JPanel panel = new JPanel();
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
 	private JMenuItem menuItemOuvrir = new JMenuItem("Ouvrir");
 	private JMenuItem menuItemSauvegarder = new JMenuItem("Sauvegarder");
+	private JMenuItem menuItemQuitter = new JMenuItem("Quitter");
+	private Container contentPane = getContentPane();
 	
 	public PaintView(PaintControler control) {
 			
 		this.control = control;
 		
-		getContentPane().add(panel);
-		
-		setVisible(true);
 		setTitle(WINDOW_TITLE);
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
 		
-		createMenuBar();	
-	
+		contentPane.add(imagePane);
+		createMenuBar();
+		imagePane.setVisible(true);
+		setVisible(true);
+		
+		menuItemOuvrir.addActionListener(new OuvrirListener());
+		menuItemSauvegarder.addActionListener(new SauvegardeListener());
+		menuItemQuitter.addActionListener(new QuitterListener());
+    	
 	}
-	
-
 	
 	private void createMenuBar() {
 		menuBar.add(menuFichier);
 		menuFichier.add(menuItemOuvrir);
 		menuFichier.add(menuItemSauvegarder);
+		menuFichier.add(menuItemQuitter);
 		setJMenuBar(menuBar);
 	}
 
 
 	public void getParameter() {
-		// TODO On fait une demande au model pour obtenir les nouveaux paramètres de l'image
+		// TODO On fait une demande au model pour obtenir les nouveaux paramï¿½tres de l'image
 	}
 	
 	class SauvegardeListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			// TODO 	
 		}           
 	}
 	
-	
 	class OuvrirListener implements ActionListener{
 	    public void actionPerformed(ActionEvent e) {
-	      // TODO 
+	    	JFileChooser fileChooser = new JFileChooser();
+			fileChooser.showOpenDialog(null);
+			File imageFile =  fileChooser.getSelectedFile();
+	    	try {
+				image = ImageIO.read(imageFile);
+			} catch (IOException e1) {}
+	    	JLabel imageLabel = new JLabel(new ImageIcon(image));
+	    	imagePane.add(imageLabel);
+	    	setSize(image.getWidth(),image.getHeight());
 	    }           
 	}
-
-
-
 	
-	 
+	class QuitterListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}           
+	}
+	
 }
+
+
+
