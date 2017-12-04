@@ -31,7 +31,7 @@ public class OperationColler implements Strategie {
 		}
 		else
 		{
-		  System.err.println("OperationColler: ce n'etait as une image!");
+		  System.err.println("OperationColler: le fichier n'etait as une image!");
 		}
 		return null;
 	}

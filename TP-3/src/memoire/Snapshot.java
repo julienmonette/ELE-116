@@ -1,15 +1,16 @@
 package memoire;
 
+import java.awt.image.BufferedImage;
+
 public class Snapshot {
 	
-	//Va falloir changer String pour le type d'etat qu'on veut sauvegarder
-	private String etat;
+	private BufferedImage etat;
 	
-	public Snapshot(String etat) {
+	public Snapshot(BufferedImage etat) {
 		this.etat = etat;
 	}
 	
-	public String getEtat() {
+	public BufferedImage getEtat() {
 		return etat;
 	}
 

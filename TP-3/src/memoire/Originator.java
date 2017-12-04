@@ -1,14 +1,15 @@
 package memoire;
 
+import java.awt.image.BufferedImage;
+
 public class Originator {
-	//Va falloir changer String pour le type d'etat qu'on veut sauvegarder
-	private String etat;
+	private BufferedImage etat;
 	
-	public void setEtat(String etat) {
+	public void setEtat(BufferedImage etat) {
 		this.etat = etat;
 	}
 
-	public String getEtat() {
+	public BufferedImage getEtat() {
 		return etat;
 	}
 	
