@@ -27,7 +27,7 @@ public class PaintView extends JFrame implements Observer {
 	static private final String WINDOW_TITLE = "Viewer";
 	
 	private BufferedImage image;
-	private ImagePanel imagePane = new ImagePanel();
+	private ImagePanel imagePanel;
 	
 	private PaintControler control;
 	
@@ -36,7 +36,7 @@ public class PaintView extends JFrame implements Observer {
 	private JMenuItem menuItemOuvrir = new JMenuItem("Ouvrir");
 	private JMenuItem menuItemSauvegarder = new JMenuItem("Sauvegarder");
 	private JMenuItem menuItemQuitter = new JMenuItem("Quitter");
-	private Container contentPane = getContentPane();
+	Container contentPane=getContentPane();
 	
 	public PaintView(PaintControler control) {
 			
@@ -47,9 +47,9 @@ public class PaintView extends JFrame implements Observer {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
 		
-		contentPane.add(imagePane);
+		
 		createMenuBar();
-		imagePane.setVisible(true);
+		
 		setVisible(true);
 		
 		menuItemOuvrir.addActionListener(new OuvrirListener());
@@ -84,9 +84,10 @@ public class PaintView extends JFrame implements Observer {
 	    	try {
 				image = ImageIO.read(imageFile);
 			} catch (IOException e1) {}
-	    	JLabel imageLabel = new JLabel(new ImageIcon(image));
-	    	imagePane.add(imageLabel);
+	    	
+	    	ImagePanel panel=new ImagePanel(image);
 	    	setSize(image.getWidth(),image.getHeight());
+	    	contentPane.add(panel);
 	    }           
 	}
 	
@@ -95,7 +96,6 @@ public class PaintView extends JFrame implements Observer {
 			System.exit(0);
 		}           
 	}
-	
 }
 
 

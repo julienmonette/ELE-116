@@ -10,5 +10,4 @@ public class OperationCopier implements Strategie {
 		return null;
 	}
 	
-	
 }
