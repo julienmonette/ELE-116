@@ -31,7 +31,7 @@ public class OperationColler implements Strategie {
 		}
 		else
 		{
-		  System.err.println("getImageFromClipboard: That wasn't an image!");
+		  System.err.println("OperationColler: ce n'etait as une image!");
 		}
 		return null;
 	}
