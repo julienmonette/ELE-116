@@ -1,3 +1,5 @@
+package MVC;
+
 public class PaintControler {
 
 	private PaintModel model; 

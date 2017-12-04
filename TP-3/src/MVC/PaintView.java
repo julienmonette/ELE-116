@@ -1,3 +1,4 @@
+package MVC;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -25,6 +26,8 @@ public class PaintView extends JFrame implements Observer {
 	static private final int DEFAULT_WINDOW_X = 0;
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
+	
+	private static final double ZOOMFACTOR = 0.01;
 	
 	private BufferedImage image;
 	private ImagePanel imagePanel;
@@ -71,6 +74,16 @@ public class PaintView extends JFrame implements Observer {
 		// TODO On fait une demande au model pour obtenir les nouveaux param�tres de l'image
 	}
 	
+	public void zoomIN()
+	{
+		image = image.getScaledInstance(image.getWidth()*(-1)*ZOOMFACTOR, image.getHeight()*ZOOMFACTOR, hints)
+	}
+	public void zoomOUT()
+	{
+		image = image.getScaledInstance(image.getWidth()*ZOOMFACTOR, height, hints)
+	}
+	
+	
 	class SauvegardeListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 		}           
@@ -96,6 +109,7 @@ public class PaintView extends JFrame implements Observer {
 			System.exit(0);
 		}           
 	}
+
 }
 
 

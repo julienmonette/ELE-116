@@ -1,3 +1,5 @@
+package MVC;
+
 public interface Observable{
 
 	public void notifyObserver();

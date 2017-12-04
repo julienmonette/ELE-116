@@ -1,3 +1,4 @@
+package MVC;
 public class PaintModel implements Observable{
 
 	private Observer observer;
