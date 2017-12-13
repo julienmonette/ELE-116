@@ -61,6 +61,7 @@ public class PaintView extends JFrame implements Observer {
 		menuItemOuvrir.addActionListener(new OuvrirListener());
 		menuItemSauvegarder.addActionListener(new SauvegardeListener());
 		menuItemQuitter.addActionListener(new QuitterListener());
+		menuItemToGrayScale.addActionListener(new ToGrayScaleListener()); 
     	
 	}
 	
@@ -72,7 +73,6 @@ public class PaintView extends JFrame implements Observer {
 		menuFichier.add(menuItemQuitter);
 		setJMenuBar(menuBar);
 	}
-
 
 	public void getParameter() {
 		// TODO On fait une demande au model pour obtenir les nouveaux param�tres de l'image
@@ -98,19 +98,16 @@ public class PaintView extends JFrame implements Observer {
 				image.setRGB(i,j,grayPixel.getRGB());
 			}
 		}
-		
-		
-		
+		repaint();
 	}
 	
 	
-	
-	class SauvegardeListener implements ActionListener{
+	private class SauvegardeListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 		}           
 	}
 	
-	class OuvrirListener implements ActionListener{
+	private class OuvrirListener implements ActionListener{
 	    public void actionPerformed(ActionEvent e) {
 	    	JFileChooser fileChooser = new JFileChooser();
 			fileChooser.showOpenDialog(null);
@@ -125,14 +122,15 @@ public class PaintView extends JFrame implements Observer {
 	    }           
 	}
 	
-	class ToGrayScaleListener implements ActionListener{
+	private class ToGrayScaleListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-		//	ToGraysScaleCommand mundoCommand = new ToGraysScaleCommand(super);
+		   ToGraysScaleCommand mundoCommand = new ToGraysScaleCommand(PaintView.this);
+		   mundoCommand.execute();
 		}
 	}
 	
 	
-	class QuitterListener implements ActionListener{
+	private class QuitterListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}           
