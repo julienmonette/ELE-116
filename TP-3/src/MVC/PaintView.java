@@ -21,6 +21,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import command.ToGraysScaleCommand;
+import command.ZoomInCommand;
+import command.ZoomOutCommand;
 
 public class PaintView extends JFrame implements Observer {
 
@@ -43,6 +45,8 @@ public class PaintView extends JFrame implements Observer {
 	private JMenuItem menuItemSauvegarder = new JMenuItem("Sauvegarder");
 	private JMenuItem menuItemToGrayScale = new JMenuItem("Noir et blanc");
 	private JMenuItem menuItemQuitter = new JMenuItem("Quitter");
+	private JMenuItem menuItemZoomOut = new JMenuItem("Zoom -");
+	private JMenuItem menuItemZoomIn = new JMenuItem("Zoom +");
 	Container contentPane=getContentPane();
 	
 	public PaintView(PaintControler control) {
@@ -62,6 +66,8 @@ public class PaintView extends JFrame implements Observer {
 		menuItemSauvegarder.addActionListener(new SauvegardeListener());
 		menuItemQuitter.addActionListener(new QuitterListener());
 		menuItemToGrayScale.addActionListener(new ToGrayScaleListener()); 
+		menuItemZoomIn.addActionListener(new ZoomInListener());
+		menuItemZoomOut.addActionListener(new ZoomOutListener());
     	
 	}
 	
@@ -71,6 +77,8 @@ public class PaintView extends JFrame implements Observer {
 		menuFichier.add(menuItemSauvegarder);
 		menuFichier.add(menuItemToGrayScale);
 		menuFichier.add(menuItemQuitter);
+		menuFichier.add(menuItemZoomIn);
+		menuFichier.add(menuItemZoomOut);
 		setJMenuBar(menuBar);
 	}
 
@@ -82,11 +90,13 @@ public class PaintView extends JFrame implements Observer {
 	{
 		//image = image.getScaledInstance(image.getWidth()*(-1)*ZOOMFACTOR, image.getHeight()*ZOOMFACTOR, hints)
 		image = (BufferedImage)image.getScaledInstance((int)(image.getWidth()*(1-ZOOMFACTOR)), (int)(image.getHeight()*(1-ZOOMFACTOR)), image.SCALE_SMOOTH);
+		repaint();
 	}
 	public void zoomOUT()
 	{
 		//image = image.getScaledInstance(image.getWidth()*ZOOMFACTOR, height, hints)
 		image = (BufferedImage)image.getScaledInstance((int)(image.getWidth()*(ZOOMFACTOR)), (int)(image.getHeight()*(ZOOMFACTOR)), image.SCALE_SMOOTH);
+		repaint();
 	}
 	
 	public  void toGrayScale() {
@@ -135,6 +145,23 @@ public class PaintView extends JFrame implements Observer {
 			System.exit(0);
 		}           
 	}
+	
+	private class ZoomInListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			ZoomInCommand zoomInCommand = new ZoomInCommand(PaintView.this);
+			zoomInCommand.execute();
+		}
+	}
+	
+	private class ZoomOutListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			ZoomOutCommand zoomOutCommand = new ZoomOutCommand(PaintView.this);
+			zoomOutCommand.execute();
+		}
+	}
+	
+	
+	
 
 }
 
