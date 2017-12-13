@@ -1,21 +1,24 @@
 package command;
 
-import java.awt.image.BufferedImage;
+import MVC.PaintView;
 
 public class ZoomInCommand implements Command{
 
-	private BufferedImage image;	
+	private PaintView image;	
 	
 	
-	public void ZoomIn(BufferedImage image)
-	{
+	public ZoomInCommand(PaintView image) {
 		this.image = image;
 	}
 	
-	@Override
+	/*
+	public void ZoomIn(BufferedImage image)
+	{
+		this.image = image;
+	}*/
+	
 	public void execute() {
-		//image.zoomIN();
-		
+		image.zoomIN();
 	}
 
 }

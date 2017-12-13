@@ -1,11 +1,17 @@
 package command;
 
+import MVC.PaintView;
+
 public class ZoomOutCommand implements Command{
 
-	@Override
+	private PaintView image;
+	
+	public ZoomOutCommand(PaintView image) {
+		this.image = image;
+	}
+	
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		image.zoomOUT();
 	}
 
 }
