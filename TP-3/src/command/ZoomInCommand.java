@@ -14,7 +14,7 @@ public class ZoomInCommand implements Command{
 	
 	@Override
 	public void execute() {
-		image.zoomIN();
+		//image.zoomIN();
 		
 	}
 

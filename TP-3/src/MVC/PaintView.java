@@ -1,5 +1,6 @@
 package MVC;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -18,6 +19,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import command.ToGraysScaleCommand;
 
 public class PaintView extends JFrame implements Observer {
 
@@ -38,6 +41,7 @@ public class PaintView extends JFrame implements Observer {
 	private JMenu menuFichier = new JMenu("Fichier");
 	private JMenuItem menuItemOuvrir = new JMenuItem("Ouvrir");
 	private JMenuItem menuItemSauvegarder = new JMenuItem("Sauvegarder");
+	private JMenuItem menuItemToGrayScale = new JMenuItem("Noir et blanc");
 	private JMenuItem menuItemQuitter = new JMenuItem("Quitter");
 	Container contentPane=getContentPane();
 	
@@ -49,7 +53,6 @@ public class PaintView extends JFrame implements Observer {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
-		
 		
 		createMenuBar();
 		
@@ -65,6 +68,7 @@ public class PaintView extends JFrame implements Observer {
 		menuBar.add(menuFichier);
 		menuFichier.add(menuItemOuvrir);
 		menuFichier.add(menuItemSauvegarder);
+		menuFichier.add(menuItemToGrayScale);
 		menuFichier.add(menuItemQuitter);
 		setJMenuBar(menuBar);
 	}
@@ -76,12 +80,24 @@ public class PaintView extends JFrame implements Observer {
 	
 	public void zoomIN()
 	{
-		image = image.getScaledInstance(image.getWidth()*(-1)*ZOOMFACTOR, image.getHeight()*ZOOMFACTOR, hints)
+		//image = image.getScaledInstance(image.getWidth()*(-1)*ZOOMFACTOR, image.getHeight()*ZOOMFACTOR, hints)
 	}
 	public void zoomOUT()
 	{
-		image = image.getScaledInstance(image.getWidth()*ZOOMFACTOR, height, hints)
+		//image = image.getScaledInstance(image.getWidth()*ZOOMFACTOR, height, hints)
 	}
+	
+	public  void toGrayScale() {
+		for( int i = 0; i < image.getWidth(); ++i ){
+			for( int j = 0; j < image.getHeight(); ++j ) {
+				Color color = new Color(image.getRGB(i,j));
+				int gray = (color.getRed() + color.getGreen() + color.getBlue() )/3;
+				Color grayPixel = new Color(gray, gray, gray);
+				image.setRGB(i,j,grayPixel.getRGB());
+			}
+		}
+	}
+	
 	
 	
 	class SauvegardeListener implements ActionListener{
@@ -103,6 +119,13 @@ public class PaintView extends JFrame implements Observer {
 	    	contentPane.add(panel);
 	    }           
 	}
+	
+	class ToGrayScaleListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			ToGraysScaleCommand mundoCommand = new ToGraysScaleCommand(super);
+		}
+	}
+	
 	
 	class QuitterListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
