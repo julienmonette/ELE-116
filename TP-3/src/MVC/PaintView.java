@@ -81,10 +81,12 @@ public class PaintView extends JFrame implements Observer {
 	public void zoomIN()
 	{
 		//image = image.getScaledInstance(image.getWidth()*(-1)*ZOOMFACTOR, image.getHeight()*ZOOMFACTOR, hints)
+		image = (BufferedImage)image.getScaledInstance((int)(image.getWidth()*(1-ZOOMFACTOR)), (int)(image.getHeight()*(1-ZOOMFACTOR)), image.SCALE_SMOOTH);
 	}
 	public void zoomOUT()
 	{
 		//image = image.getScaledInstance(image.getWidth()*ZOOMFACTOR, height, hints)
+		image = (BufferedImage)image.getScaledInstance((int)(image.getWidth()*(ZOOMFACTOR)), (int)(image.getHeight()*(ZOOMFACTOR)), image.SCALE_SMOOTH);
 	}
 	
 	public  void toGrayScale() {
@@ -96,6 +98,9 @@ public class PaintView extends JFrame implements Observer {
 				image.setRGB(i,j,grayPixel.getRGB());
 			}
 		}
+		
+		
+		
 	}
 	
 	
