@@ -122,7 +122,7 @@ public class PaintView extends JFrame implements Observer {
 	
 	class ToGrayScaleListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			ToGraysScaleCommand mundoCommand = new ToGraysScaleCommand(super);
+		//	ToGraysScaleCommand mundoCommand = new ToGraysScaleCommand(super);
 		}
 	}
 	
