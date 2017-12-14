@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,7 +29,7 @@ import command.ToGraysScaleCommand;
 import command.ZoomInCommand;
 import command.ZoomOutCommand;
 
-public class PaintView extends JFrame implements Observer {
+public class PaintView extends JFrame implements Observer, MouseWheelListener{
 
 	static private final int WINDOW_WIDTH = 600;
 	static private final int WINDOW_HEIGHT = 600;
@@ -66,8 +68,8 @@ public class PaintView extends JFrame implements Observer {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
-		
-		setContentPane(new Panneau());
+		Panneau pane = new Panneau();
+		setContentPane(pane);
 		createMenuBar();
 		
 		setVisible(true);
@@ -78,7 +80,7 @@ public class PaintView extends JFrame implements Observer {
 		menuItemToGrayScale.addActionListener(new ToGrayScaleListener()); 
 		menuItemZoomIn.addActionListener(new ZoomInListener());
 		menuItemZoomOut.addActionListener(new ZoomOutListener());
-    	
+		pane.addMouseWheelListener(this);
 	}
 	
 	private void createMenuBar() {
@@ -167,6 +169,20 @@ public class PaintView extends JFrame implements Observer {
 	}
 	
 	
+	public void mouseWheelMoved(MouseWheelEvent w) {
+		
+		if(w.getWheelRotation() < 0) {
+			ZoomOutCommand zoomOutCommand = new ZoomOutCommand(PaintView.this);
+			zoomOutCommand.execute();
+		}
+		else {
+			ZoomInCommand zoomInCommand = new ZoomInCommand(PaintView.this);
+			zoomInCommand.execute();
+		}
+		
+	}
+	
+	
 	public class Panneau extends JPanel{
 	
 			public void paintComponent(Graphics gd) {
@@ -190,6 +206,8 @@ public class PaintView extends JFrame implements Observer {
 				g.drawImage(image,0,0,this);
 			}               
 	}
+
+
 	
 }
 
