@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +35,7 @@ public class PaintView extends JFrame implements Observer {
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	
-	private static final double ZOOMFACTOR = 0.01;
+	private static final double ZOOMFACTOR = 0.1;
 	
 	private BufferedImage image;
 	private ImagePanel imagePanel;
@@ -47,7 +50,13 @@ public class PaintView extends JFrame implements Observer {
 	private JMenuItem menuItemQuitter = new JMenuItem("Quitter");
 	private JMenuItem menuItemZoomOut = new JMenuItem("Zoom -");
 	private JMenuItem menuItemZoomIn = new JMenuItem("Zoom +");
-	Container contentPane=getContentPane();
+	public Container contentPane=getContentPane();
+	
+	
+	
+	private double zoom = 1;
+	
+	
 	
 	public PaintView(PaintControler control) {
 			
@@ -58,6 +67,7 @@ public class PaintView extends JFrame implements Observer {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
 		
+		setContentPane(new Panneau());
 		createMenuBar();
 		
 		setVisible(true);
@@ -88,14 +98,12 @@ public class PaintView extends JFrame implements Observer {
 	
 	public void zoomIN()
 	{
-		//image = image.getScaledInstance(image.getWidth()*(-1)*ZOOMFACTOR, image.getHeight()*ZOOMFACTOR, hints)
-		image = (BufferedImage)image.getScaledInstance((int)(image.getWidth()*(1-ZOOMFACTOR)), (int)(image.getHeight()*(1-ZOOMFACTOR)), image.SCALE_SMOOTH);
+		zoom += ZOOMFACTOR;
 		repaint();
 	}
 	public void zoomOUT()
 	{
-		//image = image.getScaledInstance(image.getWidth()*ZOOMFACTOR, height, hints)
-		image = (BufferedImage)image.getScaledInstance((int)(image.getWidth()*(ZOOMFACTOR)), (int)(image.getHeight()*(ZOOMFACTOR)), image.SCALE_SMOOTH);
+		zoom -= ZOOMFACTOR;
 		repaint();
 	}
 	
@@ -112,6 +120,7 @@ public class PaintView extends JFrame implements Observer {
 	}
 	
 	
+	
 	private class SauvegardeListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 		}           
@@ -125,10 +134,7 @@ public class PaintView extends JFrame implements Observer {
 	    	try {
 				image = ImageIO.read(imageFile);
 			} catch (IOException e1) {}
-	    	
-	    	ImagePanel panel=new ImagePanel(image);
-	    	setSize(image.getWidth(),image.getHeight());
-	    	contentPane.add(panel);
+	    repaint();
 	    }           
 	}
 	
@@ -161,8 +167,30 @@ public class PaintView extends JFrame implements Observer {
 	}
 	
 	
+	public class Panneau extends JPanel{
 	
-
+			public void paintComponent(Graphics gd) {
+				
+				Graphics2D g = (Graphics2D) gd;
+		        
+		        AffineTransform t = new AffineTransform();
+		        //Ici je centre l'image
+		        //float currentImgWidth = img.getWidth()*zoom, currentImgHeight = img.getHeight()*zoom;
+		       // t.translate(width/2-currentImgWidth/2, height/2-currentImgHeight/2);
+		        //J'applique le "scale"
+		        t.scale(zoom, zoom);
+		        //Et j'affiche en utilisant la transformation
+		        g.drawImage(image, t, null);
+		         
+		        //On libère un peu de mémoire histoire de laisser le GC tranquille un peu plus longtemps
+		        g.dispose();
+				
+				
+				System.out.println("Je suis exécutée !"); 
+				g.drawImage(image,0,0,this);
+			}               
+	}
+	
 }
 
 
