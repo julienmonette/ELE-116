@@ -1,17 +1,18 @@
 package command;
 
+import MVC.PaintModel;
 import MVC.PaintView;
 
 public class ZoomOutCommand implements Command{
 
-	private PaintView image;
+	private PaintModel model;
 	
-	public ZoomOutCommand(PaintView image) {
-		this.image = image;
+	public ZoomOutCommand(PaintModel model) {
+		this.model= model;
 	}
 	
 	public void execute() {
-		image.zoomOUT();
+		model.zoomOUT();
 	}
 
 }

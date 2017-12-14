@@ -6,7 +6,7 @@ public class Main {
 	
 		PaintModel paintModel = new PaintModel();
 		PaintControler paintControler = new PaintControler(paintModel);
-		PaintView paintView = new PaintView(paintControler);
+		PaintView paintView = new PaintView(paintControler, paintModel);
 	
 		// paintModel.addObserver(paintView);
 	}

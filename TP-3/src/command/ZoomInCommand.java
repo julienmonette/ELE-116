@@ -1,14 +1,15 @@
 package command;
 
+import MVC.PaintModel;
 import MVC.PaintView;
 
 public class ZoomInCommand implements Command{
 
-	private PaintView image;	
+	private PaintModel model;	
 	
 	
-	public ZoomInCommand(PaintView image) {
-		this.image = image;
+	public ZoomInCommand(PaintModel model) {
+		this.model = model;
 	}
 	
 	/*
@@ -18,7 +19,7 @@ public class ZoomInCommand implements Command{
 	}*/
 	
 	public void execute() {
-		image.zoomIN();
+		model.zoomIN();
 	}
 
 }

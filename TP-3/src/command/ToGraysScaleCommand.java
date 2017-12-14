@@ -1,17 +1,18 @@
 package command;
 
+import MVC.PaintModel;
 import MVC.PaintView;
 
 public class ToGraysScaleCommand implements Command {
 
-	private PaintView image;
+	private PaintModel model;
 	
-	public ToGraysScaleCommand(PaintView image) {
-		this.image = image;
+	public ToGraysScaleCommand(PaintModel model) {
+		this.model = model;
 	}
 	
 	public void execute() {
-		image.toGrayScale();
+		model.toGrayScale();
 	}
 	
 }

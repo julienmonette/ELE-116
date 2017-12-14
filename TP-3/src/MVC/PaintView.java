@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
@@ -25,6 +27,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import command.OpenImageCommand;
 import command.ToGraysScaleCommand;
 import command.ZoomInCommand;
 import command.ZoomOutCommand;
@@ -37,12 +40,11 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	
-	private static final double ZOOMFACTOR = 0.1;
-	
-	private BufferedImage image;
-	private ImagePanel imagePanel;
+	private double imageZoom;
+	private BufferedImage image = null;
 	
 	private PaintControler control;
+	private PaintModel model;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
@@ -54,15 +56,17 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 	private JMenuItem menuItemZoomIn = new JMenuItem("Zoom +");
 	public Container contentPane=getContentPane();
 	
+	private ImagePanel imagePanel;
+	private MouseListener mouselistener;
 	
 	
-	private double zoom = 1;
-	
-	
-	
-	public PaintView(PaintControler control) {
-			
+	public PaintView(PaintControler control, PaintModel model) {
+		
+		
 		this.control = control;
+		this.model = model;
+		
+		model.addObserver(this);
 		
 		setTitle(WINDOW_TITLE);
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -71,7 +75,6 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 		Panneau pane = new Panneau();
 		setContentPane(pane);
 		createMenuBar();
-		
 		setVisible(true);
 		
 		menuItemOuvrir.addActionListener(new OuvrirListener());
@@ -95,33 +98,11 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 	}
 
 	public void getParameter() {
-		// TODO On fait une demande au model pour obtenir les nouveaux paramï¿½tres de l'image
-	}
-	
-	public void zoomIN()
-	{
-		zoom += ZOOMFACTOR;
+		this.image = model.getImage();
+		this.imageZoom = model.getZoom();
 		repaint();
+		
 	}
-	public void zoomOUT()
-	{
-		zoom -= ZOOMFACTOR;
-		repaint();
-	}
-	
-	public  void toGrayScale() {
-		for( int i = 0; i < image.getWidth(); ++i ){
-			for( int j = 0; j < image.getHeight(); ++j ) {
-				Color color = new Color(image.getRGB(i,j));
-				int gray = (color.getRed() + color.getGreen() + color.getBlue() )/3;
-				Color grayPixel = new Color(gray, gray, gray);
-				image.setRGB(i,j,grayPixel.getRGB());
-			}
-		}
-		repaint();
-	}
-	
-	
 	
 	private class SauvegardeListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -134,16 +115,20 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 			fileChooser.showOpenDialog(null);
 			File imageFile =  fileChooser.getSelectedFile();
 	    	try {
-				image = ImageIO.read(imageFile);
-			} catch (IOException e1) {}
-	    repaint();
+				BufferedImage newimage = ImageIO.read(imageFile);
+		    	control.addCommand(new OpenImageCommand(newimage, model));
+		    	ImagePanel panel=new ImagePanel(newimage);
+		    	setSize(newimage.getWidth(),newimage.getHeight());
+		    	contentPane.add(panel);
+		    	repaint();
+	
+			} catch (IOException e1) { e1.printStackTrace();}
 	    }           
 	}
 	
 	private class ToGrayScaleListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-		   ToGraysScaleCommand mundoCommand = new ToGraysScaleCommand(PaintView.this);
-		   mundoCommand.execute();
+		public void actionPerformed(ActionEvent e) {	   
+			control.addCommand(new ToGraysScaleCommand(model));
 		}
 	}
 	
@@ -156,30 +141,23 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 	
 	private class ZoomInListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			ZoomInCommand zoomInCommand = new ZoomInCommand(PaintView.this);
-			zoomInCommand.execute();
+			control.addCommand(new ZoomInCommand(model));
 		}
 	}
 	
 	private class ZoomOutListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			ZoomOutCommand zoomOutCommand = new ZoomOutCommand(PaintView.this);
-			zoomOutCommand.execute();
+			control.addCommand(new ZoomOutCommand(model));
 		}
 	}
 	
-	
 	public void mouseWheelMoved(MouseWheelEvent w) {
-		
 		if(w.getWheelRotation() < 0) {
-			ZoomOutCommand zoomOutCommand = new ZoomOutCommand(PaintView.this);
-			zoomOutCommand.execute();
+			control.addCommand( new ZoomOutCommand(model));
 		}
 		else {
-			ZoomInCommand zoomInCommand = new ZoomInCommand(PaintView.this);
-			zoomInCommand.execute();
+			control.addCommand( new ZoomInCommand(model));
 		}
-		
 	}
 	
 	
@@ -188,24 +166,19 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener{
 			public void paintComponent(Graphics gd) {
 				
 				Graphics2D g = (Graphics2D) gd;
-		        
-		        AffineTransform t = new AffineTransform();
-		        //Ici je centre l'image
-		        //float currentImgWidth = img.getWidth()*zoom, currentImgHeight = img.getHeight()*zoom;
-		       // t.translate(width/2-currentImgWidth/2, height/2-currentImgHeight/2);
-		        //J'applique le "scale"
-		        t.scale(zoom, zoom);
-		        //Et j'affiche en utilisant la transformation
-		        g.drawImage(image, t, null);
+				getParameter();
+		        AffineTransform modif = new AffineTransform();
+		        modif.scale(imageZoom, imageZoom);
+		        g.drawImage(image, modif, null);
 		         
 		        //On libère un peu de mémoire histoire de laisser le GC tranquille un peu plus longtemps
 		        g.dispose();
-				
-				
-				System.out.println("Je suis exécutée !"); 
 				g.drawImage(image,0,0,this);
 			}               
 	}
+
+
+	
 
 
 	
