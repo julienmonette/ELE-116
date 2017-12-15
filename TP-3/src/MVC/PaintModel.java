@@ -12,10 +12,14 @@ public class PaintModel implements Observable{
 
 	private static final double ZOOMFACTOR = 0.1;
 	
-	private AffineTransform modif = null;
 	private Observer observer;
+	
 	private double imageZoom = 1;
+	private int imageXPos = 0;
+	private int imageYPos = 0;
+	
 	private BufferedImage image = null;
+	
 	
 	public void notifyObserver() {
 		observer.getParameter();
@@ -26,10 +30,9 @@ public class PaintModel implements Observable{
 		notifyObserver();
 	}
 	
-	public void applyTranslation() {
-		// do something
-        //float currentImgWidth = img.getWidth()*zoom, currentImgHeight = img.getHeight()*zoom;
-       // t.translate(width/2-currentImgWidth/2, height/2-currentImgHeight/2);
+	public void applyTranslation(int xTranslation, int yTranslation) {
+		this.imageXPos += xTranslation;
+		this.imageYPos += yTranslation;
 		notifyObserver();
 	}
 	
@@ -69,7 +72,13 @@ public class PaintModel implements Observable{
 		return this.imageZoom;
 	}
 	
+	public int getXPos() {
+		return imageXPos;
+	}
 	
+	public int getYPos() {
+		return imageYPos;
+	}
 	
 	
 
