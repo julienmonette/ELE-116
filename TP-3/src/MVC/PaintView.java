@@ -103,6 +103,12 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		menuAction.add(menuItemZoomIn);
 		menuAction.add(menuItemZoomOut);
 		setJMenuBar(menuBar);
+		
+		menuItemSauvegarder.setEnabled(false);
+		menuItemToGrayScale.setEnabled(false);
+		menuItemUndo.setEnabled(false);
+		menuItemZoomIn.setEnabled(false);
+		menuItemZoomOut.setEnabled(false);	
 	}
 
 	public void getParameter() {
@@ -129,7 +135,13 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		    	ImagePanel panel=new ImagePanel(newimage);
 		    	setSize(newimage.getWidth(),newimage.getHeight());
 		    	contentPane.add(panel);
-		    	
+				
+				menuItemUndo.setEnabled(true);
+				menuItemZoomIn.setEnabled(true);
+				menuItemZoomOut.setEnabled(true);
+		    	menuItemSauvegarder.setEnabled(true);
+				menuItemToGrayScale.setEnabled(true);
+
 		    	repaint();	
 	
 			} catch (IOException e1) { e1.printStackTrace();}
@@ -138,7 +150,6 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	
 	private class UndoListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Creating UndoCommand");
 			control.addCommand( new UndoCommand(model));
 		}
 	}
@@ -203,10 +214,10 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		}             
 	}
 	public void mouseDragged(MouseEvent e) {}
-	public void mouseMoved(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e)   {}
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e)  {}
 
 }
 
