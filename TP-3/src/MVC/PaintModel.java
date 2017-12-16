@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import memoire.CannotUndoException;
 import memoire.CareTaker;
 import memoire.Snapshot;
 
@@ -49,11 +50,18 @@ public class PaintModel implements Observable{
 	}
 	
 	public void undoAction() {
-		Snapshot s = careTaker.getLastSnapshot();	
-		this.imageXPos = s.getImageXPos();
-		this.imageYPos = s.getImageYPos();
-		this.imageZoom = s.getImageZoom();
-		this.image = s.GetBufferedImage();
+		
+		Snapshot s;
+		try {
+			s = careTaker.getLastSnapshot();
+			this.imageXPos = s.getImageXPos();
+			this.imageYPos = s.getImageYPos();
+			this.imageZoom = s.getImageZoom();
+			this.image = s.GetBufferedImage();
+		} catch (CannotUndoException e) {
+		}
+		
+
 		notifyObserver();
 	}
 	

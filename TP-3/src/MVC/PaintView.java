@@ -136,7 +136,7 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		    	setSize(newimage.getWidth(),newimage.getHeight());
 		    	contentPane.add(panel);
 				
-				menuItemUndo.setEnabled(true);
+
 				menuItemZoomIn.setEnabled(true);
 				menuItemZoomOut.setEnabled(true);
 		    	menuItemSauvegarder.setEnabled(true);
@@ -169,12 +169,14 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	private class ZoomInListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			control.addCommand(new ZoomInCommand(model));
+			menuItemUndo.setEnabled(true);
 		}
 	}
 	
 	private class ZoomOutListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			control.addCommand(new ZoomOutCommand(model));
+			menuItemUndo.setEnabled(true);
 		}
 	}
 
@@ -189,6 +191,7 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 			int xTranslation = (int) (TRANSLATION_FACTOR*(currentMousePosition.getX() - oldMousePosition.getX()));
 			int yTranslation = (int) (TRANSLATION_FACTOR*(currentMousePosition.getY() - oldMousePosition.getY()));
 			control.addCommand(new TranslationCommand(model, xTranslation, yTranslation));
+			menuItemUndo.setEnabled(true);
 		}
 		isDragged = false;
 	}

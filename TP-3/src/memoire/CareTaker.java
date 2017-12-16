@@ -10,9 +10,13 @@ public class CareTaker {
 		snapshotStack.add(etat);
 	}
 	
-	public Snapshot getLastSnapshot() throws EmptyStackException {		
-		Snapshot s = (snapshotStack.pop());
+	public Snapshot getLastSnapshot() throws CannotUndoException {		
+		
+	    if(snapshotStack.isEmpty()) {
+	    	throw  new CannotUndoException();
+	    }
+		Snapshot s = snapshotStack.pop();
 		return s; 
 	}
-
 }
+
