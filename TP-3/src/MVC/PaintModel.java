@@ -37,13 +37,13 @@ public class PaintModel implements Observable{
 	
 	public void zoomIN()
 	{
-		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos, image));
+		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos,image));
 		imageZoom += ZOOMFACTOR;
 		notifyObserver();
 	}
 	public void zoomOUT()
 	{
-		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos, image));
+		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos,image));
 		imageZoom -= ZOOMFACTOR;
 		notifyObserver();
 	}
@@ -58,7 +58,7 @@ public class PaintModel implements Observable{
 	}
 	
 	public  void toGrayScale() {
-		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos, image));
+		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos,image));
 		for( int i = 0; i < image.getWidth(); ++i ){
 			for( int j = 0; j < image.getHeight(); ++j ) {
 				Color color = new Color(image.getRGB(i,j));
@@ -75,7 +75,7 @@ public class PaintModel implements Observable{
 	}
 	
 	public BufferedImage getImage() {
-		return this.image;
+		return image;
 	}
 	
 	public double getZoom() {
@@ -89,4 +89,7 @@ public class PaintModel implements Observable{
 	public int getYPos() {
 		return imageYPos;
 	}
+	
+
+	
 }

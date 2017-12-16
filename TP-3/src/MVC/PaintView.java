@@ -99,7 +99,7 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		menuFichier.add(menuItemSauvegarder);
 		menuFichier.add(menuItemQuitter);
 		menuAction.add(menuItemUndo);
-		menuAction.add(menuItemToGrayScale);
+		//menuAction.add(menuItemToGrayScale);
 		menuAction.add(menuItemZoomIn);
 		menuAction.add(menuItemZoomOut);
 		setJMenuBar(menuBar);
@@ -109,11 +109,7 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		this.image = model.getImage();
 		this.imageZoom = model.getZoom();
 		this.imageXPos = model.getXPos(); 
-		this.imageYPos = model.getYPos(); 
-		
-		Color c = new Color(image.getRGB(165, 15));
-		System.out.println("Avant affichage :" + c.getRed());
-		
+		this.imageYPos = model.getYPos(); 		
 		repaint();
 	}
 	
@@ -128,7 +124,7 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 			fileChooser.showOpenDialog(null);
 			File imageFile =  fileChooser.getSelectedFile();
 	    	try {
-				BufferedImage newimage = ImageIO.read(imageFile);
+	    		BufferedImage newimage = (BufferedImage) ImageIO.read(imageFile);
 		    	control.addCommand(new OpenImageCommand(newimage, model));
 		    	ImagePanel panel=new ImagePanel(newimage);
 		    	setSize(newimage.getWidth(),newimage.getHeight());

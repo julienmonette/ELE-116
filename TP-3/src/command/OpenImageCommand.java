@@ -1,7 +1,6 @@
 package command;
 
 import java.awt.image.BufferedImage;
-
 import MVC.PaintModel;
 import MVC.PaintView;
 
@@ -16,6 +15,6 @@ public class OpenImageCommand implements Command{
 	}
 	
 	public void execute() {
-		model.OpenImage(image);
+		model.OpenImage( image);
 	}
 }
