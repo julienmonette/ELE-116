@@ -11,12 +11,12 @@ public class Originator {
 	public String getEtat() {
 		return etat;
 	}
-	
+	/*
 	public Snapshot saveToSnapshot() {
 		return new Snapshot(etat);
 	}
 	
 	public void getEtatDeSnapshot(Snapshot snapshot) {
-		etat = snapshot.getEtat();
-	}
+	//	etat = snapshot.getEtat();
+	}*/
 }

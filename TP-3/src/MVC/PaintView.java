@@ -1,4 +1,5 @@
 package MVC;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 import command.OpenImageCommand;
 import command.ToGraysScaleCommand;
 import command.TranslationCommand;
+import command.UndoCommand;
 import command.ZoomInCommand;
 import command.ZoomOutCommand;
 
@@ -35,41 +37,37 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	static private final int DEFAULT_WINDOW_Y = 0;
 	static private final String WINDOW_TITLE = "Viewer";
 	static private final double TRANSLATION_FACTOR = 0.5;	
-
 	
 	private PaintControler control;
 	private PaintModel model;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFichier = new JMenu("Fichier");
+	private JMenu menuAction = new JMenu("Action");
 	private JMenuItem menuItemOuvrir = new JMenuItem("Ouvrir");
 	private JMenuItem menuItemSauvegarder = new JMenuItem("Sauvegarder");
-	private JMenuItem menuItemToGrayScale = new JMenuItem("Noir et blanc");
 	private JMenuItem menuItemQuitter = new JMenuItem("Quitter");
+	private JMenuItem menuItemToGrayScale = new JMenuItem("Noir et blanc");
 	private JMenuItem menuItemZoomOut = new JMenuItem("Zoom -");
 	private JMenuItem menuItemZoomIn = new JMenuItem("Zoom +");
+	private JMenuItem menuItemUndo = new JMenuItem("Undo");
+
 	public Container contentPane=getContentPane();
 	
-	private int imageXPos = 0;
-	private int imageYPos = 0;
+	private boolean isDragged = false; 
 	private Point oldMousePosition;
 	private Point currentMousePosition;
 
+	// Image State
+	private int imageXPos = 0;
+	private int imageYPos = 0;
 	private double imageZoom;
 	private BufferedImage image = null;
-
-	private boolean isDragged = false; 
-
-	
-	
-	
 	
 	public PaintView(PaintControler control, PaintModel model) {
 		
-		
 		this.control = control;
 		this.model = model;
-		
 		model.addObserver(this);
 		
 		setTitle(WINDOW_TITLE);
@@ -87,6 +85,7 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		menuItemToGrayScale.addActionListener(new ToGrayScaleListener()); 
 		menuItemZoomIn.addActionListener(new ZoomInListener());
 		menuItemZoomOut.addActionListener(new ZoomOutListener());
+		menuItemUndo.addActionListener(new UndoListener());
 
 		pane.addMouseMotionListener(this);
 		pane.addMouseListener(this);
@@ -95,12 +94,14 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	
 	private void createMenuBar() {
 		menuBar.add(menuFichier);
+		menuBar.add(menuAction);
 		menuFichier.add(menuItemOuvrir);
 		menuFichier.add(menuItemSauvegarder);
-		menuFichier.add(menuItemToGrayScale);
 		menuFichier.add(menuItemQuitter);
-		menuFichier.add(menuItemZoomIn);
-		menuFichier.add(menuItemZoomOut);
+		menuAction.add(menuItemUndo);
+		menuAction.add(menuItemToGrayScale);
+		menuAction.add(menuItemZoomIn);
+		menuAction.add(menuItemZoomOut);
 		setJMenuBar(menuBar);
 	}
 
@@ -109,8 +110,11 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		this.imageZoom = model.getZoom();
 		this.imageXPos = model.getXPos(); 
 		this.imageYPos = model.getYPos(); 
-		repaint();
 		
+		Color c = new Color(image.getRGB(165, 15));
+		System.out.println("Avant affichage :" + c.getRed());
+		
+		repaint();
 	}
 	
 	private class SauvegardeListener implements ActionListener{
@@ -129,10 +133,18 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		    	ImagePanel panel=new ImagePanel(newimage);
 		    	setSize(newimage.getWidth(),newimage.getHeight());
 		    	contentPane.add(panel);
+		    	
 		    	repaint();	
 	
 			} catch (IOException e1) { e1.printStackTrace();}
 	    }           
+	}
+	
+	private class UndoListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Creating UndoCommand");
+			control.addCommand( new UndoCommand(model));
+		}
 	}
 	
 	private class ToGrayScaleListener implements ActionListener{
@@ -140,7 +152,6 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 			control.addCommand(new ToGraysScaleCommand(model));
 		}
 	}
-	
 	
 	private class QuitterListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -160,14 +171,9 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 		}
 	}
 
-	public void mouseDragged(MouseEvent e) {	
-	}
-
-
 	public void mousePressed(MouseEvent e) {
 		oldMousePosition = e.getPoint(); 
 		isDragged = true;
-		System.out.println(oldMousePosition);
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -192,16 +198,15 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	public class MyPanel extends JPanel{
 	
 		public void paintComponent(Graphics gd) {
-			getParameter();
 			Graphics2D g = (Graphics2D) gd;
 			AffineTransform modif = new AffineTransform();
 		    modif.scale(imageZoom, imageZoom);
 		    modif.translate(imageXPos,imageYPos);
 	        g.drawImage(image, modif, null);
 	        g.dispose();
-			}             
+		}             
 	}
-	
+	public void mouseDragged(MouseEvent e) {}
 	public void mouseMoved(MouseEvent e) {}
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}

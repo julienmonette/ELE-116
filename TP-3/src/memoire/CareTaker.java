@@ -1,17 +1,30 @@
 package memoire;
 
-import java.util.List;
-import java.util.ArrayList;
+
+import java.awt.Color;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 public class CareTaker {
-	private List<Snapshot> snapshotList = new ArrayList<Snapshot>();
+	private Stack<Snapshot> snapshotStack = new Stack<Snapshot>();
 	
-	public void add(Snapshot etat) {
-		snapshotList.add(etat);
+	public void add(Snapshot etat) {	
+		snapshotStack.add(etat);
+		Color c = new Color(etat.GetBufferedImage().getRGB(165, 15));
+		System.out.println("Generation du snap "+ snapshotStack.size() + " avec : "+ c.getRed());	
 	}
 	
+	public Snapshot getLastSnapshot() throws EmptyStackException {		
+		Snapshot s = (snapshotStack.pop());
+		Color c = new Color(s.GetBufferedImage().getRGB(165, 15));
+		System.out.println("Get de snap du stack "+ (snapshotStack.size()+1) + " avec : "+ c.getRed());
+
+		return s; 
+	}
+	
+	/*
 	public Snapshot get(int index) {
 		return snapshotList.get(index);
-	}
+	}*/
 
 }
