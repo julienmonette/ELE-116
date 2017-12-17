@@ -15,6 +15,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -140,27 +142,40 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	
 	private class OuvrirListener implements ActionListener{
 	    public void actionPerformed(ActionEvent e) {
+	    	String typeFichier = null;
+	    	Null nullExcept = new Null("Ce fichier n'est pas une image !");
 	    	JFileChooser fileChooser = new JFileChooser();
 			fileChooser.showOpenDialog(null);
 			File imageFile =  fileChooser.getSelectedFile();
-	    	try {
-	    		BufferedImage newimage = (BufferedImage) ImageIO.read(imageFile);
-		    	control.addCommand(new OpenImageCommand(newimage, model));
-		    	ImagePanel panel=new ImagePanel(newimage);
-		    	setSize(newimage.getWidth(),newimage.getHeight());
-		    	contentPane.add(panel);
-				
+			try {
+				 typeFichier = Files.probeContentType(imageFile.toPath());
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+			if (typeFichier != null && typeFichier.split("/")[0].equals("image")) {
+				try {
+		    		BufferedImage newimage = (BufferedImage) ImageIO.read(imageFile);
+			    	control.addCommand(new OpenImageCommand(newimage, model));
+			    	ImagePanel panel=new ImagePanel(newimage);
+			    	setSize(newimage.getWidth(),newimage.getHeight());
+			    	contentPane.add(panel);
+					
 
-				menuItemZoomIn.setEnabled(true);
-				menuItemZoomOut.setEnabled(true);
-		    	menuItemSauvegarder.setEnabled(true);
-				menuItemToGrayScale.setEnabled(true);
-				menuItemListeCommandes.setEnabled(true);
+					menuItemZoomIn.setEnabled(true);
+					menuItemZoomOut.setEnabled(true);
+			    	menuItemSauvegarder.setEnabled(true);
+					menuItemToGrayScale.setEnabled(true);
+					menuItemListeCommandes.setEnabled(true);
 
-		    	repaint();	
-	
-			} catch (IOException e1) { e1.printStackTrace();}
-	    }           
+			    	repaint();	
+		
+				} catch (IOException e1) { e1.printStackTrace();}
+		    }
+			else {
+				nullExcept.ErreurNull();
+			}
+			}
+			           
 	}
 	
 	private class UndoListener implements ActionListener{
