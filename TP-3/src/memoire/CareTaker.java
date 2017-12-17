@@ -1,17 +1,22 @@
 package memoire;
-
-import java.util.List;
-import java.util.ArrayList;
+import java.awt.Color;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 public class CareTaker {
-	private List<Snapshot> snapshotList = new ArrayList<Snapshot>();
+	private Stack<Snapshot> snapshotStack = new Stack<Snapshot>();
 	
-	public void add(Snapshot etat) {
-		snapshotList.add(etat);
+	public void add(Snapshot etat) {	
+		snapshotStack.add(etat);
 	}
 	
-	public Snapshot get(int index) {
-		return snapshotList.get(index);
+	public Snapshot getLastSnapshot() throws CannotUndoException {		
+		
+	    if(snapshotStack.isEmpty()) {
+	    	throw  new CannotUndoException();
+	    }
+		Snapshot s = snapshotStack.pop();
+		return s; 
 	}
-
 }
+

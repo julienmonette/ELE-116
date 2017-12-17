@@ -63,7 +63,7 @@ public class Client extends JFrame{
 	static private final int POSITION_FENETRE_Y = 0;
 	static private final String HTML_FILE_NAME = "unFichierHTML.html";
 	static private final String HTML_FILE_DIR_NAME = "html";
-	static private final PrintStream console = System.out;
+	static private final PrintStream CONSOLE = System.out;
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menuFile = new JMenu("File");
@@ -282,7 +282,7 @@ public class Client extends JFrame{
 	    	}
 	    }
 	    System.out.println("//////////////////////////////////////////////////////////////////////////////////////////");
-	    System.setOut(console);   
+	    System.setOut(CONSOLE);   
 	}
 }
 

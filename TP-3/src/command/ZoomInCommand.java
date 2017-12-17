@@ -1,21 +1,25 @@
 package command;
 
-import java.awt.image.BufferedImage;
+import MVC.PaintModel;
+import MVC.PaintView;
 
 public class ZoomInCommand implements Command{
 
-	private BufferedImage image;	
+	private PaintModel model;	
 	
 	
+	public ZoomInCommand(PaintModel model) {
+		this.model = model;
+	}
+	
+	/*
 	public void ZoomIn(BufferedImage image)
 	{
 		this.image = image;
-	}
+	}*/
 	
-	@Override
 	public void execute() {
-		image.zoomIN();
-		
+		model.zoomIN();
 	}
 
 }
