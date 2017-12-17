@@ -149,8 +149,8 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 			File imageFile =  fileChooser.getSelectedFile();
 			try {
 				 typeFichier = Files.probeContentType(imageFile.toPath());
-			} catch (IOException e2) {
-				e2.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 			if (typeFichier != null && typeFichier.split("/")[0].equals("image")) {
 				try {
@@ -169,12 +169,12 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 
 			    	repaint();	
 		
-				} catch (IOException e1) { e1.printStackTrace();}
+				} catch (IOException e2) { e2.printStackTrace();}
 		    }
 			else {
 				nullExcept.ErreurNull();
 			}
-			}
+		}
 			           
 	}
 	
