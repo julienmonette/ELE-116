@@ -120,9 +120,17 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	}
 	
 	private class SauvegardeListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-		}           
+        public void actionPerformed(ActionEvent e) {
+             JFileChooser fileChooser = new JFileChooser();
+             if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            	 try {
+                        BufferedImage toSave = model.getImage();
+                        ImageIO.write(toSave, "png", fileChooser.getSelectedFile());
+                 } catch (IOException e1) { e1.printStackTrace(); }
+             }
+        }
 	}
+
 	
 	private class OuvrirListener implements ActionListener{
 	    public void actionPerformed(ActionEvent e) {
