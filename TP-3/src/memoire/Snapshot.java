@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 
-public class Snapshot {
+public class Snapshot implements MementoIF{
 	
 	private BufferedImage etat;
     private double imageZoom;
