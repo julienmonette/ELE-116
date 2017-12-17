@@ -35,7 +35,7 @@ public class PaintModel implements Observable{
 		careTaker.add(new Snapshot(imageZoom, imageXPos, imageYPos, image));
 		this.imageXPos += xTranslation;
 		this.imageYPos += yTranslation;
-		listeCommandes.ajouterCommande("Translation de " + xTranslation + "en x et de " + yTranslation + "en y");
+		listeCommandes.ajouterCommande("Translation de " + xTranslation + " en x et de " + yTranslation + " en y");
 		notifyObserver();
 	}
 	

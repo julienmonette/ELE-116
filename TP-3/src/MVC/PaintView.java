@@ -22,6 +22,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import command.ListeCommandesCommand;
 import command.OpenImageCommand;
 import command.ToGraysScaleCommand;
 import command.TranslationCommand;
@@ -189,6 +191,13 @@ public class PaintView extends JFrame implements Observer, MouseWheelListener, M
 	private class ZoomOutListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			control.addCommand(new ZoomOutCommand(model));
+			menuItemUndo.setEnabled(true);
+		}
+	}
+	
+	private class ListeCommandesListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			control.addCommand(new ListeCommandesCommand(model));
 			menuItemUndo.setEnabled(true);
 		}
 	}
